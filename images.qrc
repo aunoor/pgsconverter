@@ -1,0 +1,41 @@
+<RCC>
+    <qresource prefix="/gui" >
+        <file>icons/open.png</file>
+        <file>icons/open_add.png</file>
+        <file>icons/save.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/check_all.png</file>
+        <file>icons/save_as.png</file>
+        <file>icons/uncheck_all.png</file>
+        <file>icons/save_as_gpx.png</file>
+        <file>icons/save_as_pg.png</file>
+        <file>icons/help.png</file>
+        <file>icons/map_edit.png</file>
+        <file>icons/bt_home_n.2.png</file>
+        <file>icons/bt_office_n.2.png</file>
+        <file>icons/p_icons/1.png</file>
+        <file>icons/p_icons/2.png</file>
+        <file>icons/p_icons/3.png</file>
+        <file>icons/p_icons/4.png</file>
+        <file>icons/p_icons/5.png</file>
+        <file>icons/p_icons/6.png</file>
+        <file>icons/p_icons/7.png</file>
+        <file>icons/p_icons/8.png</file>
+        <file>icons/p_icons/9.png</file>
+        <file>icons/p_icons/10.png</file>
+        <file>icons/p_icons/11.png</file>
+        <file>icons/p_icons/12.png</file>
+        <file>icons/p_icons/13.png</file>
+        <file>icons/p_icons/14.png</file>
+        <file>icons/p_icons/15.png</file>
+        <file>icons/p_icons/16.png</file>
+        <file>icons/p_icons/17.png</file>
+        <file>icons/p_icons/18.png</file>
+        <file>icons/p_icons/19.png</file>
+        <file>icons/p_icons/20.png</file>
+    </qresource>
+    <qresource prefix="/" >
+        <file>translation/qt_ru.qm</file>
+    </qresource>
+</RCC>
