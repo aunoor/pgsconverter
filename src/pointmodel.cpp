@@ -27,7 +27,7 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         else if (index.column()==1) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
         break;
     case Qt::CheckStateRole:
-        if (index.column()==0) return ((favPoints_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
+        if (index.column()==0) return ((safePoints_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
         else return QVariant();
         break;
     case Qt::DecorationRole:
@@ -144,20 +144,20 @@ bool PointModel::dropMimeData(const QMimeData *data,
     bool moveMode=true;
     if (aPid!=qApp->applicationPid()) moveMode=false;
 
-    FavPointsList tmpPL;
+    SafePointsList tmpPL;
 
     for (int i=0;i<cnt;i++) {
-        favRecord_t favRawPoint;
-        qMemCopy(&favRawPoint,ba.constData(), sizeof(favRecord_t));
-        addRawPointToPointList(favRawPoint, tmpPL);
-        ba.remove(0, sizeof(favRecord_t));
+        safeRecordV1_t safeRawPoint;
+        qMemCopy(&safeRawPoint,ba.constData(), sizeof(safeRecordV1_t));
+        addRawPointToPointList(safeRawPoint, tmpPL);
+        ba.remove(0, sizeof(safeRecordV1_t));
         int uuidLen;
         qMemCopy(&uuidLen,ba.constData(),sizeof(uuidLen));
         ba.remove(0,sizeof(uuidLen));
 
         QByteArray dsBa = ba.left(uuidLen);
         QUuid uuid = QUuid(QString(dsBa));
-        favPoints_t * fp = &tmpPL[tmpPL.count()-1];
+        safePoints_t * fp = &tmpPL[tmpPL.count()-1];
         fp->uuid = uuid;
         ba.remove(0,uuidLen);
     }
@@ -219,10 +219,10 @@ QMimeData * PointModel::mimeData ( const QModelIndexList & indexes ) const
     quint16 cnt=0;
     for (int i=0;i<indexes.count();i++) {
         if (!((QModelIndex)indexes.at(i)).isValid() || ((QModelIndex)indexes.at(i)).column()!=0) continue;
-        favRecord_t *rawPnt = (favRecord_t *)malloc(sizeof(favRecord_t));
-        favPoints_t pnt = pointList.at(((QModelIndex)indexes.at(i)).row());
+        safeRecordV1_t *rawPnt = (safeRecordV1_t *)malloc(sizeof(safeRecordV1_t));
+        safePoints_t pnt = pointList.at(((QModelIndex)indexes.at(i)).row());
         pntToRawPnt(pnt,rawPnt);
-        ba.append((const char*)rawPnt,sizeof(favRecord_t));
+        ba.append((const char*)rawPnt,sizeof(safeRecordV1_t));
         free(rawPnt);
         QByteArray dsBa=pnt.uuid.toString().toLatin1();
         int cntBa=dsBa.count();
@@ -248,7 +248,7 @@ bool PointModel::removeRow (int row, const QModelIndex & parent)
     return true;
 }
 
-void PointModel::appendPoint(const favPoints_t &point)
+void PointModel::appendPoint(const safePoints_t &point)
 {
     pointList.append(point);
     beginInsertRows(QModelIndex(),pointList.count()-1,pointList.count()-1);
@@ -278,7 +278,7 @@ int PointModel::getCheckedCount()
     return cnt;
 }
 
-favPoints_t PointModel::getPoint(int row)
+safePoints_t PointModel::getPoint(int row)
 {
     return pointList.at(row);
 }
@@ -288,7 +288,7 @@ int PointModel::getPointsCount()
     return pointList.count();
 }
 
-void PointModel::setPoint(int row, favPoints_t &point)
+void PointModel::setPoint(int row, safePoints_t &point)
 {
     if (row>pointList.count()-1) return;
     pointList[row] = point;
@@ -316,13 +316,13 @@ bool PointModel::setPointType(int row, uint type)
     if (type!=0) {
         for (int i=0;i<pointList.count()-1;i++) {
             if (pointList.at(i).pntType==type) {
-                favPoints_t point =  pointList[i];
+                safePoints_t point =  pointList[i];
                 point.pntType=0;
                 setPoint(i,point);
             }//if ==
             }//for
         }//!=0
-    favPoints_t point = pointList.at(row);
+    safePoints_t point = pointList.at(row);
     point.pntType = type;
     setPoint(row, point);
     return true;

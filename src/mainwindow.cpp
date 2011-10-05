@@ -101,8 +101,9 @@ void MainWindow::on_action_save_gpx_triggered()
     if (changed) setChanged(!res);
 }
 
-bool MainWindow::loadFavRecords(QString fileName, FavPointsList &list)
+bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
 {
+/*
     QFile file(fileName);
     if (!file.exists()) {
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Файл не найден."));
@@ -130,10 +131,11 @@ bool MainWindow::loadFavRecords(QString fileName, FavPointsList &list)
         addRawPointToPointList(favRawPoint, list);
     }
     file.close();
+*/
     return true;
 }
 
-void MainWindow::showPointList(FavPointsList &list, bool append) {
+void MainWindow::showPointList(SafePointsList &list, bool append) {
     if (!append) this->pointModel.clearModel();
     for (int i=0;i<list.size();i++) {
         pointModel.appendPoint(list.at(i));
@@ -141,7 +143,8 @@ void MainWindow::showPointList(FavPointsList &list, bool append) {
     ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
 }
 
-bool MainWindow::loadGpx(QString fileName, FavPointsList &list) {
+bool MainWindow::loadGpx(QString fileName, SafePointsList &list) {
+/*
     QDomDocument doc("gpx");
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
@@ -178,6 +181,7 @@ bool MainWindow::loadGpx(QString fileName, FavPointsList &list) {
         n = n.nextSibling();
     }//while(!n.isNull())
     return true;
+*/
 }
 
 void MainWindow::chCheckItems(bool checked) {
@@ -202,6 +206,7 @@ int MainWindow::countCheckedItems() {
 }
 
 bool MainWindow::storeInGpx(QString &fileName){
+/*
     QFile file(fileName);
     bool res = file.open(QIODevice::WriteOnly);
     if (!res) {
@@ -237,9 +242,11 @@ bool MainWindow::storeInGpx(QString &fileName){
     }//for
     file.write("</gpx>\n");
     return true;
+*/
 }
 
 bool MainWindow::storeInFavDat(QString &fileName){
+/*
     QFile file(fileName);
     bool res = file.open(QIODevice::WriteOnly);
     if (!res) {
@@ -265,17 +272,17 @@ bool MainWindow::storeInFavDat(QString &fileName){
     }//for
     file.close();
     return true;
-
+*/
 }
 
 void MainWindow::on_action_append_from_file_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с путевыми точками (*.gpx favorites.dat *.dat)"));
     if (fileName.isEmpty()) return;
-    FavPointsList favList;
-    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, favList)) return;}
-    else {if (!loadFavRecords(fileName, favList)) return; }
-    showPointList(favList, true);
+    SafePointsList safeList;
+    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, safeList)) return;}
+    else {if (!loadSafeRecords(fileName, safeList)) return; }
+    showPointList(safeList, true);
     if (!openedFileName.isEmpty()) setChanged(true);
     else { openedFileName = fileName;
         setChanged(false);
@@ -287,11 +294,11 @@ void MainWindow::on_action_open_file_triggered()
 
     QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),".",tr("Файлы с путевыми точками (*.gpx favorites.dat *.dat)"));
     if (fileName.isEmpty()) return;
-    FavPointsList favList;
-    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, favList)) return;}
-    else {if (!loadFavRecords(fileName, favList)) return; }
+    SafePointsList safeList;
+    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, safeList)) return;}
+    else {if (!loadSafeRecords(fileName, safeList)) return; }
     openedFileName = fileName;
-    showPointList(favList, false);
+    showPointList(safeList, false);
     setChanged(false);
 }
 
@@ -392,7 +399,8 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 
     EditPointDialog ed;
     QString name, desc, coords;
-    favPoints_t point=pointModel.getPoint(index.row());
+    safePoints_t point=pointModel.getPoint(index.row());
+/*
     name = point.name;
     desc = point.desc;
     coords = index.model()->data(pointModel.index(index.row(),3,QModelIndex()),Qt::DisplayRole).toString();
@@ -401,7 +409,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 
     point.desc = desc;
     point.name = name;
-
+*/
     pointModel.setPoint(index.row(),point);
 }
 
@@ -439,8 +447,8 @@ void MainWindow::setIcon_Type()
     if (!index.isValid()) return;
 
     int icn_t = ((QAction*)this->sender())->data().toInt();
-    favPoints_t point=pointModel.getPoint(index.row());
-
+    safePoints_t point=pointModel.getPoint(index.row());
+/*
     if (icn_t==99) {
         pointModel.setPointType(index.row(), ptNone);
     } else
@@ -458,6 +466,7 @@ void MainWindow::setIcon_Type()
         point.iconNum = icn_t;
         pointModel.setPoint(index.row(),point);
     }
+    */
 }
 
 void MainWindow::initIconMenu()

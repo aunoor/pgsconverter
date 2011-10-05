@@ -43,9 +43,9 @@ private:
     bool changed;
     QString openedFileName;
     PointModel pointModel;
-    bool loadFavRecords(QString fileName, FavPointsList &list);
-    void showPointList(FavPointsList &list, bool append);
-    bool loadGpx(QString fileName, FavPointsList &list);
+    bool loadSafeRecords(QString fileName, SafePointsList &list);
+    void showPointList(SafePointsList &list, bool append);
+    bool loadGpx(QString fileName, SafePointsList &list);
     void chCheckItems(bool checked);
     bool storeInGpx(QString &fileName);
     bool storeInFavDat(QString &fileName);

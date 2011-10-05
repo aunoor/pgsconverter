@@ -25,17 +25,17 @@ enum CFG_USER_SAFETY_INFO
 #pragma pack(push,1)
 struct CFG_HEADER
 {
-   uint8 nMajorVersion;
-   uint8 nMinorVersion;
-   uint16 nFieldCount;
-   uint8 reserved[2];
+   quint8 nMajorVersion;
+   quint8 nMinorVersion;
+   quint16 nFieldCount;
+   quint8 reserved[2];
 };
 #pragma pack(pop)
 
 typedef struct SafeRecord_V1
 {
-   int32         pos_x;
-   int32         pos_y;
+   qint32         pos_x;
+   qint32         pos_y;
    unsigned char   type;
    unsigned char   speed;
    char         name[128];
@@ -45,10 +45,14 @@ typedef struct SafePoints {
     QString idx; //индекс. может быть любым
     double lon;
     double lat;
-    quint8 type;
+    quint8 pntType;
     quint8 speed;
     quint8 dirtype;
     quint8 direction;
+    bool checked;
+    quint16 iconNum;
+    QUuid uuid;
+    QString name;
 }safePoints_t;
 
 Q_DECLARE_METATYPE(safePoints_t)
