@@ -143,6 +143,55 @@ void MainWindow::showPointList(SafePointsList &list, bool append) {
     ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
 }
 
+bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return false;
+
+#if 0
+   //Убеждаемся что мы открыли именно нужный файл
+    bool hasHeader=false;
+    while (true) {
+        QString head=file.readLine();
+        if (head.contains("IDX,X,Y,TYPE,SPEED,DIRTYPE,DIRECTION")) {
+            hasHeader=true;
+            break;
+        }
+    }
+    if (!hasHeader) {
+        file.close();
+        qDebug() << "We don't have properly header.";
+        return false;
+    }
+#endif
+
+    while (!file.atEnd()) {
+        QString str=file.readLine();
+        QStringList params=str.split(",");
+        if (params.count()<7) continue; //количество параметров меньше допустимого.
+        SafePoint spoint;
+        spoint.idx = params.at(0);//IDX
+        bool ok;
+        spoint.lat= params.at(1).toDouble(&ok);//X
+        if (!ok) continue;
+        spoint.lon= params.at(2).toDouble(&ok);//Y
+        if (!ok) continue;
+        spoint.pntType = params.at(3).toInt(&ok);
+        if (!ok) continue;
+        spoint.speed = params.at(4).toInt(&ok);
+        if (!ok) continue;
+        spoint.dirtype = params.at(5).toInt(&ok);
+        if (!ok) continue;
+        spoint.direction = params.at(6).toInt(&ok);
+        if (!ok) continue;
+        list.append(spoint);
+    }
+
+    file.close();
+    return true;
+}
+
 bool MainWindow::loadGpx(QString fileName, SafePointsList &list) {
 /*
     QDomDocument doc("gpx");
@@ -277,10 +326,10 @@ bool MainWindow::storeInFavDat(QString &fileName){
 
 void MainWindow::on_action_append_from_file_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с путевыми точками (*.gpx favorites.dat *.dat)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с точками (*.txt usersafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     SafePointsList safeList;
-    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, safeList)) return;}
+    if (QFileInfo(fileName).suffix()=="txt") {if (!loadCamTxt(fileName, safeList)) return;}
     else {if (!loadSafeRecords(fileName, safeList)) return; }
     showPointList(safeList, true);
     if (!openedFileName.isEmpty()) setChanged(true);
@@ -292,10 +341,10 @@ void MainWindow::on_action_append_from_file_triggered()
 void MainWindow::on_action_open_file_triggered()
 {
 
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),".",tr("Файлы с путевыми точками (*.gpx favorites.dat *.dat)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),".",tr("Файлы с путевыми точками (*.txt usersafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     SafePointsList safeList;
-    if (QFileInfo(fileName).suffix()=="gpx") {if (!loadGpx(fileName, safeList)) return;}
+    if (QFileInfo(fileName).suffix()=="txt") {if (!loadCamTxt(fileName, safeList)) return;}
     else {if (!loadSafeRecords(fileName, safeList)) return; }
     openedFileName = fileName;
     showPointList(safeList, false);
@@ -399,7 +448,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 
     EditPointDialog ed;
     QString name, desc, coords;
-    safePoints_t point=pointModel.getPoint(index.row());
+    safePoint_t point=pointModel.getPoint(index.row());
 /*
     name = point.name;
     desc = point.desc;
@@ -447,7 +496,7 @@ void MainWindow::setIcon_Type()
     if (!index.isValid()) return;
 
     int icn_t = ((QAction*)this->sender())->data().toInt();
-    safePoints_t point=pointModel.getPoint(index.row());
+    safePoint_t point=pointModel.getPoint(index.row());
 /*
     if (icn_t==99) {
         pointModel.setPointType(index.row(), ptNone);

@@ -27,25 +27,21 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         else if (index.column()==1) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
         break;
     case Qt::CheckStateRole:
-        if (index.column()==0) return ((safePoints_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
+        if (index.column()==0) return ((safePoint_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
         else return QVariant();
         break;
     case Qt::DecorationRole:
         if (index.column()==0)
         {
-            QString iconName=":/gui/icons/p_icons/"+QString::number(pointList.at(index.row()).iconNum+1)+".png";
+            QString iconName;
+            if (pointList.at(index.row()).pntType==1) iconName=":/gui/icons/cam_icons/static_cam-1.png";
+            if (pointList.at(index.row()).pntType==5) iconName=":/gui/icons/cam_icons/moby_cam-5.png";
+            if (pointList.at(index.row()).pntType==3) iconName=":/gui/icons/cam_icons/redlite_sc-3.png";
+            if (pointList.at(index.row()).pntType==4) iconName=":/gui/icons/cam_icons/twin_scam-4.png";
+            if (pointList.at(index.row()).pntType==2) iconName=":/gui/icons/cam_icons/speedcam-bi-2.png";
             QIcon icon(iconName);
             return icon;
-        } else
-            if (index.column()==1)
-            {
-                if (!pointList.at(index.row()).pntType) return QVariant();
-                QString iconName;
-                if (pointList.at(index.row()).pntType==1) iconName=":/gui/icons/bt_home_n.2.png";
-                if (pointList.at(index.row()).pntType==2) iconName=":/gui/icons/bt_office_n.2.png";
-                QIcon icon(iconName);
-                return icon;
-            }
+        }
         break;
     default:
         QVariant();
@@ -157,7 +153,7 @@ bool PointModel::dropMimeData(const QMimeData *data,
 
         QByteArray dsBa = ba.left(uuidLen);
         QUuid uuid = QUuid(QString(dsBa));
-        safePoints_t * fp = &tmpPL[tmpPL.count()-1];
+        safePoint_t * fp = &tmpPL[tmpPL.count()-1];
         fp->uuid = uuid;
         ba.remove(0,uuidLen);
     }
@@ -220,7 +216,7 @@ QMimeData * PointModel::mimeData ( const QModelIndexList & indexes ) const
     for (int i=0;i<indexes.count();i++) {
         if (!((QModelIndex)indexes.at(i)).isValid() || ((QModelIndex)indexes.at(i)).column()!=0) continue;
         safeRecordV1_t *rawPnt = (safeRecordV1_t *)malloc(sizeof(safeRecordV1_t));
-        safePoints_t pnt = pointList.at(((QModelIndex)indexes.at(i)).row());
+        safePoint_t pnt = pointList.at(((QModelIndex)indexes.at(i)).row());
         pntToRawPnt(pnt,rawPnt);
         ba.append((const char*)rawPnt,sizeof(safeRecordV1_t));
         free(rawPnt);
@@ -248,7 +244,7 @@ bool PointModel::removeRow (int row, const QModelIndex & parent)
     return true;
 }
 
-void PointModel::appendPoint(const safePoints_t &point)
+void PointModel::appendPoint(const safePoint_t &point)
 {
     pointList.append(point);
     beginInsertRows(QModelIndex(),pointList.count()-1,pointList.count()-1);
@@ -278,7 +274,7 @@ int PointModel::getCheckedCount()
     return cnt;
 }
 
-safePoints_t PointModel::getPoint(int row)
+safePoint_t PointModel::getPoint(int row)
 {
     return pointList.at(row);
 }
@@ -288,7 +284,7 @@ int PointModel::getPointsCount()
     return pointList.count();
 }
 
-void PointModel::setPoint(int row, safePoints_t &point)
+void PointModel::setPoint(int row, safePoint_t &point)
 {
     if (row>pointList.count()-1) return;
     pointList[row] = point;
@@ -316,13 +312,13 @@ bool PointModel::setPointType(int row, uint type)
     if (type!=0) {
         for (int i=0;i<pointList.count()-1;i++) {
             if (pointList.at(i).pntType==type) {
-                safePoints_t point =  pointList[i];
+                safePoint_t point =  pointList[i];
                 point.pntType=0;
                 setPoint(i,point);
             }//if ==
             }//for
         }//!=0
-    safePoints_t point = pointList.at(row);
+    safePoint_t point = pointList.at(row);
     point.pntType = type;
     setPoint(row, point);
     return true;

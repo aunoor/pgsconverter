@@ -41,7 +41,7 @@ typedef struct SafeRecord_V1
    char         name[128];
 }safeRecordV1_t;
 
-typedef struct SafePoints {
+typedef struct SafePoint {
     QString idx; //индекс. может быть любым
     double lon;
     double lat;
@@ -53,14 +53,14 @@ typedef struct SafePoints {
     quint16 iconNum;
     QUuid uuid;
     QString name;
-}safePoints_t;
+}safePoint_t;
 
-Q_DECLARE_METATYPE(safePoints_t)
+Q_DECLARE_METATYPE(safePoint_t)
 
-typedef QList<safePoints_t> SafePointsList;
+typedef QList<safePoint_t> SafePointsList;
 
-void pntToRawPnt(safePoints_t &pnt, safeRecordV1_t *rawPnt);
-safePoints_t trRawPointToPoint(safeRecordV1_t &safeRawPoint);
+void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt);
+safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint);
 void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list);
 
 #endif // GLOBALDEFS_H

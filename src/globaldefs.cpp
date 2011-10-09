@@ -1,6 +1,6 @@
 #include "globaldefs.h"
 
-void pntToRawPnt(safePoints_t &pnt, safeRecordV1_t *rawPnt)
+void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
 {
     qMemSet((void*)rawPnt->pos_x,0,sizeof(safeRecordV1_t));
     rawPnt->type=1L;
@@ -21,8 +21,8 @@ void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list) 
     list.append(trRawPointToPoint(safeRawPoint));
 }
 
-safePoints_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
-    safePoints_t point;
+safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
+    safePoint_t point;
     point.lat = safeRawPoint.pos_x*.00001;
     point.lon = safeRawPoint.pos_y*.00001;
     point.pntType = safeRawPoint.type;

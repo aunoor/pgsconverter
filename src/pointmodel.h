@@ -25,13 +25,13 @@ public:
     bool removeRow ( int row, const QModelIndex & parent = QModelIndex() );
     bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
 
-    void appendPoint(const safePoints_t &point); //добавляет точку в список
+    void appendPoint(const safePoint_t &point); //добавляет точку в список
     void clearModel(); //очищает данные модели
     void setPointChecked(int row, bool checked); //выбирает или не выбирает точку
     int getCheckedCount();//возвращает количество выбранных записей
-    safePoints_t getPoint(int row); //возвращает данные точки. Если row>количества точек, все упадет. намеренно!
+    safePoint_t getPoint(int row); //возвращает данные точки. Если row>количества точек, все упадет. намеренно!
     int getPointsCount(); //возвращает количество точек в модели
-    void setPoint(int row, safePoints_t &point); //записываем данные точки
+    void setPoint(int row, safePoint_t &point); //записываем данные точки
     bool swapRows(int oldRow, int newRow); //меняет записи местами
     bool swapRows(QModelIndex &oldRow, QModelIndex &newRow); //меняет записи местами
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается

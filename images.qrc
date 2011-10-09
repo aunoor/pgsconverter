@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/gui" >
+    <qresource prefix="/gui">
         <file>icons/open.png</file>
         <file>icons/open_add.png</file>
         <file>icons/save.png</file>
@@ -14,28 +14,20 @@
         <file>icons/map_edit.png</file>
         <file>icons/bt_home_n.2.png</file>
         <file>icons/bt_office_n.2.png</file>
-        <file>icons/p_icons/1.png</file>
-        <file>icons/p_icons/2.png</file>
-        <file>icons/p_icons/3.png</file>
-        <file>icons/p_icons/4.png</file>
-        <file>icons/p_icons/5.png</file>
-        <file>icons/p_icons/6.png</file>
-        <file>icons/p_icons/7.png</file>
-        <file>icons/p_icons/8.png</file>
-        <file>icons/p_icons/9.png</file>
-        <file>icons/p_icons/10.png</file>
-        <file>icons/p_icons/11.png</file>
-        <file>icons/p_icons/12.png</file>
-        <file>icons/p_icons/13.png</file>
-        <file>icons/p_icons/14.png</file>
-        <file>icons/p_icons/15.png</file>
-        <file>icons/p_icons/16.png</file>
-        <file>icons/p_icons/17.png</file>
-        <file>icons/p_icons/18.png</file>
-        <file>icons/p_icons/19.png</file>
-        <file>icons/p_icons/20.png</file>
+        <file>icons/cam_icons/danger-106.png</file>
+        <file>icons/cam_icons/dangerous_intersect-105.png</file>
+        <file>icons/cam_icons/dangerous_turn-104.png</file>
+        <file>icons/cam_icons/mobi_cam-5.png</file>
+        <file>icons/cam_icons/police-20.png</file>
+        <file>icons/cam_icons/railway-21.png</file>
+        <file>icons/cam_icons/redlite_sc-3.png</file>
+        <file>icons/cam_icons/school_zone-22.png</file>
+        <file>icons/cam_icons/speedcam_bi-2.png</file>
+        <file>icons/cam_icons/speedlimit-101.png</file>
+        <file>icons/cam_icons/static_cam-1.png</file>
+        <file>icons/cam_icons/twin_scam-4.png</file>
     </qresource>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>translation/qt_ru.qm</file>
     </qresource>
 </RCC>
