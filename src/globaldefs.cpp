@@ -2,19 +2,20 @@
 
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
 {
-    qMemSet((void*)rawPnt->pos_x,0,sizeof(safeRecordV1_t));
-    rawPnt->type=1L;
+    qMemSet((void*)rawPnt,0,sizeof(safeRecordV1_t));
+    rawPnt->type=pnt.pntType;
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     rawPnt->pos_x=pnt.lat*100000;
     rawPnt->pos_y=pnt.lon*100000;
-    QByteArray ba = codec->fromUnicode(QString(pnt.name));
+    //QByteArray ba = codec->fromUnicode(QString(pnt.name));
     rawPnt->type = pnt.pntType;
     rawPnt->speed = pnt.speed;
-
+/*
     //Из-за каких то глюков Qt, либо я что-то не осилил, но приходиться копировать байты руками...
     for (int i=0;i<(ba.size()>128?128:ba.size()-2);i++) {
         rawPnt->name[i] = ba.at(i+2);
     }
+*/
 }
 
 void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list) {

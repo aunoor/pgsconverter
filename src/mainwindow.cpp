@@ -36,16 +36,16 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView->header()->resizeSection(2,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    initIconMenu();
+//    initIconMenu();
 
     listMenu.addAction(this->ui->action_check_all);
     listMenu.addAction(this->ui->action_uncheck_all);
     listMenu.addSeparator();
-    listMenu.addMenu(&iconMenu);
-    listMenu.addSeparator();
+//    listMenu.addMenu(&iconMenu);
+//    listMenu.addSeparator();
     listMenu.addAction(this->ui->action_del_from_list);
 
-    this->setWindowTitle(tr("Конвертер избранных точек"));
+    this->setWindowTitle(tr("Конвертер UserSafety точек"));
     changed=false;
 
     ui->treeView->installEventFilter(this);
@@ -81,10 +81,10 @@ void MainWindow::on_action_export_fav_triggered()
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Не выбрано ни одной точки для сохранения."));
         return;
     }
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт favorites.dat"),".",tr("Файл избранных точек ПроГород (favorites.dat *.dat)"));
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт UserSafety.dat"),".",tr("Файл UserSafety точек ПроГород (UserSafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
-    bool res=storeInFavDat(fileName);
+    bool res=storeInSafeDat(fileName);
     if (changed) setChanged(!res);
 }
 
@@ -185,52 +185,12 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         if (!ok) continue;
         spoint.direction = params.at(6).toInt(&ok);
         if (!ok) continue;
+        spoint.checked=true;
         list.append(spoint);
     }
 
     file.close();
     return true;
-}
-
-bool MainWindow::loadGpx(QString fileName, SafePointsList &list) {
-/*
-    QDomDocument doc("gpx");
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
-        return false;
-    if (!doc.setContent(&file)) {
-        file.close();
-        return false;
-    }
-    file.close();
-
-    list.clear();
-    QDomElement docElem = doc.documentElement();
-
-    QDomNode n = docElem.firstChild();
-    while(!n.isNull()) {
-        QDomElement e = n.toElement(); // try to convert the node to an element.
-        if(!e.isNull()) {
-            if (e.tagName().toLower()=="wpt") {
-                favPoints_t point;
-                point.lon = e.attributeNode("lon").value().toDouble();
-                point.lat = e.attributeNode("lat").value().toDouble();
-                point.checked = true;
-                point.uuid = QUuid::createUuid();
-                point.iconNum = 0;
-                point.pntType = 0;
-                QDomNodeList nl=e.childNodes();
-                for (int i=0;i<nl.size();i++) {
-                    if (nl.at(i).nodeName().toLower()=="name") point.name=nl.at(i).toElement().text();
-                    if (nl.at(i).nodeName().toLower()=="desc") point.desc=nl.at(i).toElement().text();
-                }//for nl.size
-                list.append(point);
-            }//if =="wpt"
-        }//!e.isNull()
-        n = n.nextSibling();
-    }//while(!n.isNull())
-    return true;
-*/
 }
 
 void MainWindow::chCheckItems(bool checked) {
@@ -294,8 +254,7 @@ bool MainWindow::storeInGpx(QString &fileName){
 */
 }
 
-bool MainWindow::storeInFavDat(QString &fileName){
-/*
+bool MainWindow::storeInSafeDat(QString &fileName){
     QFile file(fileName);
     bool res = file.open(QIODevice::WriteOnly);
     if (!res) {
@@ -303,25 +262,32 @@ bool MainWindow::storeInFavDat(QString &fileName){
         return res;
     }//if !res
 
-    quint32 cnt=countCheckedItems();
+    quint16 cnt=countCheckedItems();
 
     //пишем заголовок
-    char a[2]={1,0};
-    file.write(&a[0],2);
-    file.write((char*)&cnt,4);
-    file.seek(6);
-    //пишем данные
+
+    struct CFG_HEADER header;
+
+    header.nMajorVersion=1;
+    header.nMinorVersion=0;
+    header.nFieldCount=cnt;
+    header.reserved[0]=0;
+    header.reserved[1]=0;
+
+    file.write((const char*)&header,sizeof(header));
+    file.seek(sizeof(header));
+
     for (int i=0; i<pointModel.getPointsCount();i++) {
         if (!pointModel.getPoint(i).checked) continue;
-        favPoints_t point = pointModel.getPoint(i);
-        favRecord_t *rawPnt = (favRecord_t *)malloc(sizeof(favRecord_t));
+        safePoint_t point = pointModel.getPoint(i);
+        safeRecordV1_t *rawPnt = (safeRecordV1_t *)malloc(sizeof(safeRecordV1_t));
         pntToRawPnt(point, rawPnt);
-        file.write((const char*)rawPnt, sizeof(favRecord_t));
+        file.write((const char*)rawPnt, sizeof(safeRecordV1_t));
         free(rawPnt);
     }//for
     file.close();
     return true;
-*/
+
 }
 
 void MainWindow::on_action_append_from_file_triggered()
@@ -380,7 +346,7 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек GPX (*.gpx);; Файл избранных точек ПроГород (favorites.dat *.dat)"),&selFilt);
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек GPX (*.gpx);; Файл точек ПроГород (usersafety.dat *.dat)"),&selFilt);
     if (fileName.isEmpty()) return;
     bool res;
     if (selFilt.contains("gpx")) {
@@ -388,7 +354,7 @@ void MainWindow::on_action_save_as_triggered()
         res = storeInGpx(fileName);
     } else {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
-        res = storeInFavDat(fileName);
+        res = storeInSafeDat(fileName);
     }
     if (changed) setChanged(!res);
 }
@@ -396,7 +362,7 @@ void MainWindow::on_action_save_as_triggered()
 void MainWindow::setChanged(bool ch)
 {
     changed = ch;
-    QString wt=tr("Конвертер избранных точек");
+    QString wt=tr("Конвертер UserSafety точек");
     if (!openedFileName.isEmpty()) {
         wt.append(" ("+QFileInfo(openedFileName).fileName());
         wt.append(")");
@@ -417,7 +383,7 @@ void MainWindow::on_action_save_triggered()
         res = storeInGpx(openedFileName);
     } else
     {
-        res = storeInFavDat(openedFileName);
+        res = storeInSafeDat(openedFileName);
     }
     if (changed) setChanged(!res);
 }
@@ -445,6 +411,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 {
+#if 0
 
     EditPointDialog ed;
     QString name, desc, coords;
@@ -460,6 +427,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
     point.name = name;
 */
     pointModel.setPoint(index.row(),point);
+#endif
 }
 
 void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight)

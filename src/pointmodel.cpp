@@ -9,7 +9,7 @@ PointModel::PointModel()
 
 int PointModel::columnCount(const QModelIndex & parent) const
 {
-    return 4; //будет 6 по большому счету...
+    return 2;
 }
 
 QVariant PointModel::data(const QModelIndex & index, int role) const
