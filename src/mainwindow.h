@@ -45,14 +45,12 @@ private:
     PointModel pointModel;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
-    bool loadGpx(QString fileName, SafePointsList &list);
     bool loadCamTxt(QString fileName, SafePointsList &list);
     void chCheckItems(bool checked);
     bool storeInGpx(QString &fileName);
     bool storeInFavDat(QString &fileName);
     int  countCheckedItems();
     void setChanged(bool ch);
-    void initIconMenu();
     QMenu *createPopupMenu(); //заглушка, что бы не показывалось мену у тулбара
 
 protected:
