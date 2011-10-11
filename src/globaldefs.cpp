@@ -12,7 +12,10 @@ void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
         case SPEED_CAM_MOBILE:
         case SPEED_CAM_SPEEDCAM:
         case SPEED_CAM_SPEEDCAM_TWIN:
+        case SPEED_CAM_REDLIGHT_CAM:
             rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM; break;
+        case SPEED_CAM_REDLIGHT:
+            rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_DANGER; break;
         default: rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_DANGER;
     }
     rawPnt->speed = pnt.speed;

@@ -119,6 +119,7 @@ bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
         }
         safeRecordV1_t safeRecord;
         qMemCopy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
+
         addRawPointToPointList(safeRecord, list);
     }
 
