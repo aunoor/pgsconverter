@@ -22,6 +22,14 @@ enum CFG_USER_SAFETY_INFO
    CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN
 };
 
+enum SPEED_CAM_TYPES {
+    SPEED_CAM_MOBILE = 5, //- 5 - мобильная
+    SPEED_CAM_SPEEDCAM = 1, // - стационарная
+    SPEED_CAM_REDLIGHT = 3, // - светофор
+    SPEED_CAM_REDLIGHT_CAM = 2, // - встроенная в светофор
+    SPEED_CAM_SPEEDCAM_TWIN = 4// - измеряющая скорость на участке
+};
+
 #pragma pack(push,1)
 struct CFG_HEADER
 {

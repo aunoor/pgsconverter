@@ -9,7 +9,7 @@ PointModel::PointModel()
 
 int PointModel::columnCount(const QModelIndex & parent) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant PointModel::data(const QModelIndex & index, int role) const
@@ -33,11 +33,11 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         if (index.column()==0)
         {
             QString iconName;
-            if (pointList.at(index.row()).pntType==1) iconName=":/gui/icons/cam_icons/static_cam-1.png";
-            if (pointList.at(index.row()).pntType==5) iconName=":/gui/icons/cam_icons/moby_cam-5.png";
-            if (pointList.at(index.row()).pntType==3) iconName=":/gui/icons/cam_icons/redlite_sc-3.png";
-            if (pointList.at(index.row()).pntType==4) iconName=":/gui/icons/cam_icons/twin_scam-4.png";
-            if (pointList.at(index.row()).pntType==2) iconName=":/gui/icons/cam_icons/speedcam-bi-2.png";
+            if (pointList.at(index.row()).pntType==SPEED_CAM_SPEEDCAM) iconName=":/gui/icons/cam_icons/static_cam-1.png";
+            if (pointList.at(index.row()).pntType==SPEED_CAM_MOBILE) iconName=":/gui/icons/cam_icons/moby_cam-5.png";
+            if (pointList.at(index.row()).pntType==SPEED_CAM_REDLIGHT) iconName=":/gui/icons/cam_icons/redlite_sc-3.png";
+            if (pointList.at(index.row()).pntType==SPEED_CAM_SPEEDCAM_TWIN) iconName=":/gui/icons/cam_icons/twin_scam-4.png";
+            if (pointList.at(index.row()).pntType==SPEED_CAM_REDLIGHT_CAM) iconName=":/gui/icons/cam_icons/speedcam-bi-2.png";
             QIcon icon(iconName);
             return icon;
         }

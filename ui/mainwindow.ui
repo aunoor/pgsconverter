@@ -83,7 +83,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -122,6 +122,9 @@
    </property>
    <property name="text">
     <string>Сохранить в gpx</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_exit">
@@ -223,22 +226,6 @@
    </property>
    <property name="text">
     <string>Сохранить как...</string>
-   </property>
-  </action>
-  <action name="action_set_home">
-   <property name="text">
-    <string>Дом</string>
-   </property>
-   <property name="toolTip">
-    <string>Установить тип точки &quot;Дом&quot;</string>
-   </property>
-  </action>
-  <action name="action_set_office">
-   <property name="text">
-    <string>Офис</string>
-   </property>
-   <property name="toolTip">
-    <string>Установит тип точки &quot;Офис&quot;</string>
    </property>
   </action>
   <action name="action_set_icon">

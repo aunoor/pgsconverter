@@ -47,7 +47,7 @@ private:
     void showPointList(SafePointsList &list, bool append);
     bool loadCamTxt(QString fileName, SafePointsList &list);
     void chCheckItems(bool checked);
-    bool storeInGpx(QString &fileName);
+    bool storeInTxt(QString &fileName);
     bool storeInSafeDat(QString &fileName);
     int  countCheckedItems();
     void setChanged(bool ch);

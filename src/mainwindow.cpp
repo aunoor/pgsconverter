@@ -14,7 +14,6 @@ class IconMenuStyle : public QProxyStyle
     }
  };
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -85,13 +84,13 @@ void MainWindow::on_action_save_gpx_triggered()
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт gpx waypoints"),".",tr("Файл точек GPX (*.gpx)"));
     if (fileName.isEmpty()) return;
     if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".gpx");
-    bool res=storeInGpx(fileName);
+    bool res=storeInTxt(fileName);
     if (changed) setChanged(!res);
 }
 
 bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
 {
-/*
+
     QFile file(fileName);
     if (!file.exists()) {
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Файл не найден."));
@@ -106,20 +105,24 @@ bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
     }
 
     list.clear();
-    file.seek(6); //пропускаем заголовок
-    while (!file.atEnd()) {
-        QByteArray ba = file.read(0x414);
-        if (ba.size()!=0x414) {
+    struct CFG_HEADER header;
+
+    file.read((char *)&header,sizeof(header));
+
+    for (uint i=0;i<header.nFieldCount;i++)
+    {
+        QByteArray ba = file.read(sizeof(SafeRecord_V1));
+        if (ba.size()!=sizeof(SafeRecord_V1)) {
             QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Size of readed data != point data size!"));
             file.close();
             return false;
         }
-        favRecord_t favRawPoint;
-        qMemCopy(&favRawPoint,ba.data(),0x414);
-        addRawPointToPointList(favRawPoint, list);
+        safeRecordV1_t safeRecord;
+        qMemCopy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
+        addRawPointToPointList(safeRecord, list);
     }
+
     file.close();
-*/
     return true;
 }
 
@@ -156,6 +159,9 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
 
     while (!file.atEnd()) {
         QString str=file.readLine();
+        if (str.isEmpty()) continue;
+        str=str.trimmed();
+        if (str.at(0)==QChar('#')) continue;
         QStringList params=str.split(",");
         if (params.count()<7) continue; //количество параметров меньше допустимого.
         SafePoint spoint;
@@ -203,7 +209,11 @@ int MainWindow::countCheckedItems() {
     return pointModel.getCheckedCount();
 }
 
-bool MainWindow::storeInGpx(QString &fileName){
+bool MainWindow::storeInTxt(QString &fileName){
+
+    QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Функция пока не существует."));
+    return false;
+
 /*
     QFile file(fileName);
     bool res = file.open(QIODevice::WriteOnly);
@@ -211,36 +221,9 @@ bool MainWindow::storeInGpx(QString &fileName){
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Ошибка при открытии файла %1.").arg(fileName));
         return res;
     }
-
-    file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    file.write("<gpx version=\"1.0\" ");
-    file.write("creator=\"pgfconverter ");
-    file.write(VERSION);
-    file.write("\">\n");
-    int cnt=pointModel.getPointsCount();
-    for (int i=0; i<cnt;i++) {
-        if (!pointModel.getPoint(i).checked) continue;
-        favPoints_t point = pointModel.getPoint(i);
-        file.write("<wpt lat=\"");
-        file.write(QString::number(point.lat,'g',9).toLatin1());
-        file.write("\" lon=\"");
-        file.write(QString::number(point.lon,'g',9).toLatin1());
-        file.write("\">\n");
-        if (!point.name.isEmpty()){
-            file.write("\t<name>");
-            file.write(point.name.toUtf8());
-            file.write("</name>\n");
-        }
-        if (!point.desc.isEmpty()){
-            file.write("\t<desc>");
-            file.write(point.desc.toUtf8());
-            file.write("</desc>\n");
-        }
-        file.write("</wpt>\n");
-    }//for
-    file.write("</gpx>\n");
-    return true;
 */
+
+    return true;
 }
 
 bool MainWindow::storeInSafeDat(QString &fileName){
@@ -340,7 +323,7 @@ void MainWindow::on_action_save_as_triggered()
     bool res;
     if (selFilt.contains("txt")) {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");
-        res = storeInGpx(fileName);
+        res = storeInTxt(fileName);
     } else {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
         res = storeInSafeDat(fileName);
@@ -369,7 +352,7 @@ void MainWindow::on_action_save_triggered()
 
     bool res;
     if (QFileInfo(openedFileName).suffix()=="gpx") {
-        res = storeInGpx(openedFileName);
+        res = storeInTxt(openedFileName);
     } else
     {
         res = storeInSafeDat(openedFileName);
