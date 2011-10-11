@@ -173,12 +173,8 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         if (!ok) continue;
         spoint.direction = params.at(6).toInt(&ok);
         if (!ok) continue;
-<<<<<<< HEAD
         spoint.checked=true;
-=======
-        spoint.checked = true;
         spoint.uuid = QUuid::createUuid();
->>>>>>> a726de098da084789c615c15f26f2a02ad962335
         list.append(spoint);
     }
 
@@ -339,11 +335,7 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
-<<<<<<< HEAD
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек GPX (*.gpx);; Файл точек ПроГород (usersafety.dat *.dat)"),&selFilt);
-=======
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек SpeedCam (*.txt);; Файл избранных точек ПроГород (usersafety.dat *.dat)"),&selFilt);
->>>>>>> a726de098da084789c615c15f26f2a02ad962335
     if (fileName.isEmpty()) return;
     bool res;
     if (selFilt.contains("txt")) {
