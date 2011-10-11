@@ -4,14 +4,6 @@
 #include "editpointdialog.h"
 #include "aboutdialog.h"
 
-/*
- Координаты храняться в little endian uint32.
-
- ПроГород поддерживает 5 значимых знаков после запятой в сохраняемых координатах.
- Из-за этого, преобразование из gpx может приводить к потерям точности.
- Но т.к. погрешность GPS до 10 метров, несколько секунд большой разницы не играют.
-*/
-
 class IconMenuStyle : public QProxyStyle
  {
    public:
@@ -36,13 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView->header()->resizeSection(2,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-//    initIconMenu();
-
     listMenu.addAction(this->ui->action_check_all);
     listMenu.addAction(this->ui->action_uncheck_all);
     listMenu.addSeparator();
-//    listMenu.addMenu(&iconMenu);
-//    listMenu.addSeparator();
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
@@ -185,7 +173,12 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         if (!ok) continue;
         spoint.direction = params.at(6).toInt(&ok);
         if (!ok) continue;
+<<<<<<< HEAD
         spoint.checked=true;
+=======
+        spoint.checked = true;
+        spoint.uuid = QUuid::createUuid();
+>>>>>>> a726de098da084789c615c15f26f2a02ad962335
         list.append(spoint);
     }
 
@@ -346,11 +339,15 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
+<<<<<<< HEAD
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек GPX (*.gpx);; Файл точек ПроГород (usersafety.dat *.dat)"),&selFilt);
+=======
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек SpeedCam (*.txt);; Файл избранных точек ПроГород (usersafety.dat *.dat)"),&selFilt);
+>>>>>>> a726de098da084789c615c15f26f2a02ad962335
     if (fileName.isEmpty()) return;
     bool res;
-    if (selFilt.contains("gpx")) {
-        if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".gpx");
+    if (selFilt.contains("txt")) {
+        if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");
         res = storeInGpx(fileName);
     } else {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
@@ -484,26 +481,6 @@ void MainWindow::setIcon_Type()
         pointModel.setPoint(index.row(),point);
     }
     */
-}
-
-void MainWindow::initIconMenu()
-{
-    iconMenu.setTitle(tr("Иконки..."));
-    QAction *action;
-    action = iconMenu.addAction(tr("Сбросить тип"),this,SLOT(setIcon_Type()));
-    action->setData(99);
-    QIcon icon = QIcon(":/gui/icons/bt_home_n.2.png");
-    action = iconMenu.addAction(icon,tr("Дом"),this,SLOT(setIcon_Type()));
-    action->setData(98);
-    icon = QIcon(":/gui/icons/bt_office_n.2.png");
-    action = iconMenu.addAction(icon,tr("Офис"),this,SLOT(setIcon_Type()));
-    action->setData(97);
-    iconMenu.addSeparator();
-    for (int i=0;i<20;i++) {
-        icon = QIcon(":/gui/icons/p_icons/"+QString::number(i+1)+".png");
-        action = iconMenu.addAction(icon,QString::number(i+1),this,SLOT(setIcon_Type()));
-        action->setData(i);
-    }
 }
 
 QMenu *MainWindow::createPopupMenu ()

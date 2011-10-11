@@ -22,9 +22,8 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         //qDebug() << index.row() << index.column();
         //if (index.column()==0) return QString::number(index.row()+1);
         if (index.column()==0) return QVariant(index.row()+1);
-//        else if (index.column()==1) return ((favPoints_t)pointList.at(index.row())).name;
-//        else if (index.column()==2) return ((favPoints_t)pointList.at(index.row())).desc;
         else if (index.column()==1) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
+        else if (index.column()==2) return ((safePoint_t)pointList.at(index.row())).name;
         break;
     case Qt::CheckStateRole:
         if (index.column()==0) return ((safePoint_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
@@ -79,6 +78,7 @@ QVariant PointModel::headerData ( int section, Qt::Orientation orientation, int 
             switch (section) {
             case 0: return tr("N");
             case 1: return tr("Координаты");
+            case 2: return tr("Наименование");
             default:
                 return QVariant();
             }//switch
