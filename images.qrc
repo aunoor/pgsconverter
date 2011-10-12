@@ -12,8 +12,6 @@
         <file>icons/save_as_pg.png</file>
         <file>icons/help.png</file>
         <file>icons/map_edit.png</file>
-        <file>icons/bt_home_n.2.png</file>
-        <file>icons/bt_office_n.2.png</file>
         <file>icons/cam_icons/danger-106.png</file>
         <file>icons/cam_icons/dangerous_intersect-105.png</file>
         <file>icons/cam_icons/dangerous_turn-104.png</file>
@@ -26,6 +24,14 @@
         <file>icons/cam_icons/speedlimit-101.png</file>
         <file>icons/cam_icons/static_cam-1.png</file>
         <file>icons/cam_icons/twin_scam-4.png</file>
+        <file>icons/pg_icons/animals.ico</file>
+        <file>icons/pg_icons/att.ico</file>
+        <file>icons/pg_icons/camera.ico</file>
+        <file>icons/pg_icons/children.ico</file>
+        <file>icons/pg_icons/dps.ico</file>
+        <file>icons/pg_icons/qu.ico</file>
+        <file>icons/pg_icons/rc.ico</file>
+        <file>icons/pg_icons/sb.ico</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

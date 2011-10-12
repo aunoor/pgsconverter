@@ -33,11 +33,22 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         if (index.column()==0)
         {
             QString iconName;
-            if (pointList.at(index.row()).pntType==SPEED_CAM_SPEEDCAM) iconName=":/gui/icons/cam_icons/static_cam-1.png";
-            if (pointList.at(index.row()).pntType==SPEED_CAM_MOBILE) iconName=":/gui/icons/cam_icons/moby_cam-5.png";
-            if (pointList.at(index.row()).pntType==SPEED_CAM_REDLIGHT) iconName=":/gui/icons/cam_icons/redlite_sc-3.png";
-            if (pointList.at(index.row()).pntType==SPEED_CAM_SPEEDCAM_TWIN) iconName=":/gui/icons/cam_icons/twin_scam-4.png";
-            if (pointList.at(index.row()).pntType==SPEED_CAM_REDLIGHT_CAM) iconName=":/gui/icons/cam_icons/speedcam-bi-2.png";
+            switch ((int)pointList.at(index.row()).pntType)
+            {
+              case CFG_USER_SAFETY_INFO_TYPE_NONE: iconName=":/gui/icons/pg_icons/qu.ico"; break;
+            //пока на ограничение скорости отрисуем 50
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT: iconName=":/gui/icons/pg_icons/50.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE: iconName=":/gui/icons/pg_icons/children.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGER: iconName=":/gui/icons/pg_icons/att.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP: iconName=":/gui/icons/pg_icons/sb.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_WILDLIFE: iconName=":/gui/icons/pg_icons/animals.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_RAILWAY: iconName=":/gui/icons/pg_icons/rc.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_POLICE: iconName=":/gui/icons/pg_icons/dps.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: iconName=":/gui/icons/pg_icons/camera.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: iconName=":/gui/icons/pg_icons/att.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.ico"; break;
+            default: iconName=":/gui/icons/pg_icons/qu.ico";
+            }
             QIcon icon(iconName);
             return icon;
         }

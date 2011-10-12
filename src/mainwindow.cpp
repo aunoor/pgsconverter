@@ -172,7 +172,7 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         if (!ok) continue;
         spoint.lon= params.at(2).toDouble(&ok);//Y
         if (!ok) continue;
-        spoint.pntType = params.at(3).toInt(&ok);
+        spoint.pntType = txtType2PGType(params.at(3).toInt(&ok));
         if (!ok) continue;
         spoint.speed = params.at(4).toInt(&ok);
         if (!ok) continue;

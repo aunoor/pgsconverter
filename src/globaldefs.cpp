@@ -8,16 +8,7 @@ void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
     rawPnt->pos_x=pnt.lat*100000;
     rawPnt->pos_y=pnt.lon*100000;
 
-    switch (pnt.pntType) {
-        case SPEED_CAM_MOBILE:
-        case SPEED_CAM_SPEEDCAM:
-        case SPEED_CAM_SPEEDCAM_TWIN:
-        case SPEED_CAM_REDLIGHT_CAM:
-            rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM; break;
-        case SPEED_CAM_REDLIGHT:
-            rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_DANGER; break;
-        default: rawPnt->type = CFG_USER_SAFETY_INFO_TYPE_DANGER;
-    }
+    rawPnt->type = pnt.pntType;
     rawPnt->speed = pnt.speed;
 
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
@@ -36,12 +27,7 @@ safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
     safePoint_t point;
     point.lat = safeRawPoint.pos_x*.00001;
     point.lon = safeRawPoint.pos_y*.00001;
-
-    switch (safeRawPoint.type) {
-        case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: point.pntType = SPEED_CAM_SPEEDCAM; break;
-        default: point.pntType = 0;
-    }
-
+    point.pntType = safeRawPoint.type;
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     point.name=codec->toUnicode(safeRawPoint.name,128);
     point.name.truncate(point.name.indexOf(QChar('\0')));
@@ -53,3 +39,42 @@ safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
     return point;
 }
 
+
+quint8 txtType2PGType(quint8 txt_type)
+{
+    switch (txt_type) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5: return CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM;
+        case 101: return CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT;
+        case 102: return CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP;
+        case 103:
+        case 106: return CFG_USER_SAFETY_INFO_TYPE_DANGER;
+        case 104: return CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN;
+        case 105: return CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION;
+        default: return CFG_USER_SAFETY_INFO_TYPE_NONE;
+    }
+    return 0;
+}
+
+quint8 PGType2txtType(quint8 pg_type)
+{
+    switch (pg_type) {
+     case CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT: return 101;
+     case CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP: return 102;
+     case CFG_USER_SAFETY_INFO_TYPE_DANGER:
+     case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE:
+     case CFG_USER_SAFETY_INFO_TYPE_WILDLIFE:
+     case CFG_USER_SAFETY_INFO_TYPE_RAILWAY:
+     case CFG_USER_SAFETY_INFO_TYPE_POLICE:
+     case CFG_USER_SAFETY_INFO_TYPE_NONE: return 106;
+     case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: return 1;
+     case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: return 105;
+     case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: return 104;
+
+        default: return 106;
+    }
+    return 106;
+}
