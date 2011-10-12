@@ -12,18 +12,6 @@
         <file>icons/save_as_pg.png</file>
         <file>icons/help.png</file>
         <file>icons/map_edit.png</file>
-        <file>icons/cam_icons/danger-106.png</file>
-        <file>icons/cam_icons/dangerous_intersect-105.png</file>
-        <file>icons/cam_icons/dangerous_turn-104.png</file>
-        <file>icons/cam_icons/mobi_cam-5.png</file>
-        <file>icons/cam_icons/police-20.png</file>
-        <file>icons/cam_icons/railway-21.png</file>
-        <file>icons/cam_icons/redlite_sc-3.png</file>
-        <file>icons/cam_icons/school_zone-22.png</file>
-        <file>icons/cam_icons/speedcam_bi-2.png</file>
-        <file>icons/cam_icons/speedlimit-101.png</file>
-        <file>icons/cam_icons/static_cam-1.png</file>
-        <file>icons/cam_icons/twin_scam-4.png</file>
         <file>icons/pg_icons/animals.ico</file>
         <file>icons/pg_icons/att.ico</file>
         <file>icons/pg_icons/camera.ico</file>
@@ -32,6 +20,13 @@
         <file>icons/pg_icons/qu.ico</file>
         <file>icons/pg_icons/rc.ico</file>
         <file>icons/pg_icons/sb.ico</file>
+        <file>icons/pg_icons/50.ico</file>
+        <file>icons/pg_icons/60.ico</file>
+        <file>icons/pg_icons/70.ico</file>
+        <file>icons/pg_icons/80.ico</file>
+        <file>icons/pg_icons/90.ico</file>
+        <file>icons/pg_icons/100.ico</file>
+        <file>icons/pg_icons/110.ico</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

@@ -14,8 +14,8 @@ void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     QByteArray ba = codec->fromUnicode(QString(pnt.name));
     //Из-за каких то глюков Qt, либо я что-то не осилил, но приходиться копировать байты руками...
-    for (int i=0;i<(ba.size()>128?128:ba.size()-2);i++) {
-        rawPnt->name[i] = ba.at(i+2);
+    for (int i=0;i<(ba.size()>128?128:ba.size());i++) {
+        rawPnt->name[i] = ba.at(i);
     }
 }
 
