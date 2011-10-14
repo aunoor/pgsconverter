@@ -211,19 +211,40 @@ int MainWindow::countCheckedItems() {
 }
 
 bool MainWindow::storeInTxt(QString &fileName){
-
-    QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Функция пока не существует."));
-    return false;
-
-/*
     QFile file(fileName);
     bool res = file.open(QIODevice::WriteOnly);
     if (!res) {
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Ошибка при открытии файла %1.").arg(fileName));
         return res;
     }
-*/
 
+    file.write(QByteArray("IDX, X, Y, TYPE, SPEED, DirType, Direction\r\n"));
+    for (int i=0; i<pointModel.getPointsCount();i++) {
+        if (!pointModel.getPoint(i).checked) continue;
+        QByteArray string;
+        string.append(QByteArray::number(i));
+        string.append(',');
+        safePoint_t point = pointModel.getPoint(i);
+        string.append(QByteArray::number(point.lat));
+        string.append(',');
+        string.append(QByteArray::number(point.lon));
+        string.append(',');
+        string.append(QByteArray::number(PGType2txtType(point.pntType)));
+        string.append(',');
+        string.append(QByteArray::number(point.speed));
+        string.append(',');
+        string.append(QByteArray::number(point.dirtype));
+        string.append(',');
+        string.append(QByteArray::number(point.direction));
+        if (!point.name.isEmpty()) {
+            QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+            string.append(" //");
+            string.append(codec->fromUnicode(point.name));
+        }
+        string.append("\r\n");
+        file.write(string);
+    }//for
+    file.close();
     return true;
 }
 
