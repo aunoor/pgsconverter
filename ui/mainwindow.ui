@@ -236,6 +236,11 @@
     <string>Установить иконку точки</string>
    </property>
   </action>
+  <action name="action_clone_point">
+   <property name="text">
+    <string>Клонировать точку</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../images.qrc"/>

@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_check_all);
     listMenu.addAction(this->ui->action_uncheck_all);
     listMenu.addSeparator();
+    listMenu.addAction(this->ui->action_clone_point);
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
@@ -492,4 +493,11 @@ void MainWindow::setIcon_Type()
 QMenu *MainWindow::createPopupMenu ()
 {
  return 0;
+}
+
+void MainWindow::on_action_clone_point_triggered()
+{
+    QModelIndex index=ui->treeView->currentIndex();
+    if (!index.isValid()) return;
+    pointModel.clonePoint(index.row());
 }
