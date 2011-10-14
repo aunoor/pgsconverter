@@ -34,10 +34,10 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetDefaultConstraint</enum>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QComboBox" name="typeComboBox"/>
+   </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -57,29 +57,73 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="descLabel">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Описание</string>
+        <string>Ограничение скорости:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="descLineEdit">
-       <property name="maxLength">
-        <number>128</number>
-       </property>
-      </widget>
+      <widget class="QSpinBox" name="speedSpinBox"/>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="coordsLabel">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="coordsLabel">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QToolButton" name="leftToolButton">
+         <property name="toolTip">
+          <string>Подвинуть западнее на 10 метров</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="rightToolButton">
+         <property name="toolTip">
+          <string>Подвинуть восточнее на 10 метров</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="upToolButton">
+         <property name="toolTip">
+          <string>Подвинуть севернее на 10 метров</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="downToolButton">
+         <property name="toolTip">
+          <string>Подвинуть южнее на 10 метров</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

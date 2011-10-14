@@ -26,15 +26,17 @@ void EditPointDialog::changeEvent(QEvent *e)
     }
 }
 
-int EditPointDialog::exec(QString &name, QString &desc, QString coords)
+int EditPointDialog::exec(safePoint_t &point)
 {
-    this->m_ui->nameLineEdit->setText(name);
-    this->m_ui->descLineEdit->setText(desc);
+    this->m_ui->nameLineEdit->setText(point.name);
+
+    QString coords=QString(tr("N %2, E %1")).arg(QString::number(point.lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(point.lat,'g',8).leftJustified(8,'0',true));
+
     this->m_ui->coordsLabel->setText(coords);
+    this->m_ui->speedSpinBox->setValue(point.speed);
 
     int res=QDialog::exec();
     if (res!=QDialog::Accepted) return res;
-    name = this->m_ui->nameLineEdit->text();
-    desc = this->m_ui->descLineEdit->text();
+    point.name = this->m_ui->nameLineEdit->text();
     return res;
 }

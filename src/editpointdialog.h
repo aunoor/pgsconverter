@@ -1,7 +1,8 @@
 #ifndef EDITPOINTDIALOG_H
 #define EDITPOINTDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QtGui>
+#include "pointmodel.h"
 
 namespace Ui {
     class EditPointDialog;
@@ -20,7 +21,7 @@ private:
     Ui::EditPointDialog *m_ui;
 
 public slots:
-        int exec(QString &name, QString &desc, QString coords);
+        int exec(safePoint_t &point);
 
 };
 

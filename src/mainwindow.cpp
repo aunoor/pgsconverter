@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_uncheck_all);
     listMenu.addSeparator();
     listMenu.addAction(this->ui->action_clone_point);
+    listMenu.addSeparator();
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
@@ -415,21 +416,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 {
-#if 0
-
     EditPointDialog ed;
-    QString name, desc, coords;
+    QString name, coords;
     safePoint_t point=pointModel.getPoint(index.row());
-/*
-    name = point.name;
-    desc = point.desc;
-    coords = index.model()->data(pointModel.index(index.row(),3,QModelIndex()),Qt::DisplayRole).toString();
-    int res=ed.exec(name, desc, coords);
-    if (res==QDialog::Rejected) return;
+    int pntType = point.pntType;
 
+
+    name = point.name;
+    coords = index.model()->data(pointModel.index(index.row(),3,QModelIndex()),Qt::DisplayRole).toString();
+    int res=ed.exec(point);
+    if (res==QDialog::Rejected) return;
+#if 0
     point.desc = desc;
     point.name = name;
-*/
+
     pointModel.setPoint(index.row(),point);
 #endif
 }
