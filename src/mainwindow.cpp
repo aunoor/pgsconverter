@@ -426,12 +426,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
     coords = index.model()->data(pointModel.index(index.row(),3,QModelIndex()),Qt::DisplayRole).toString();
     int res=ed.exec(point);
     if (res==QDialog::Rejected) return;
-#if 0
-    point.desc = desc;
-    point.name = name;
-
     pointModel.setPoint(index.row(),point);
-#endif
 }
 
 void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight)

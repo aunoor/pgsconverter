@@ -51,8 +51,8 @@ typedef struct SafeRecord_V1
 
 typedef struct SafePoint {
     QString idx; //индекс. может быть любым
-    double lon;
-    double lat;
+    double lon;//X - долгота
+    double lat;//Y - широта
     quint8 pntType;
     quint8 speed;
     quint8 dirtype;
