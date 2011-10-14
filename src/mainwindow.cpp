@@ -170,10 +170,18 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
 #endif
 
     while (!file.atEnd()) {
-        QString str=file.readLine();
+        QByteArray line=file.readLine();
+        QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+        QString str=codec->toUnicode(line);
+        QString name;
         if (str.isEmpty()) continue;
         str=str.trimmed();
         if (str.at(0)==QChar('#')) continue;
+        if (str.contains("//")) {
+            int cmPos=str.indexOf("//");
+            name=str.mid(cmPos+2);
+            str.truncate(cmPos);
+        }
         QStringList params=str.split(',');
         if (params.count()<7) continue; //количество параметров меньше допустимого.
         SafePoint spoint;
@@ -192,6 +200,11 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         spoint.direction = params.at(6).toInt(&ok);
         if (!ok) continue;
         spoint.checked=true;
+
+        if (!name.isEmpty()) {
+            spoint.name=name;
+        }
+
         spoint.uuid = QUuid::createUuid();
         list.append(spoint);
     }
@@ -236,9 +249,9 @@ bool MainWindow::storeInTxt(QString &fileName){
         string.append(QByteArray::number(i));
         string.append(',');
         safePoint_t point = pointModel.getPoint(i);
-        string.append(QByteArray::number(point.lat));
+        string.append(QByteArray::number(point.lat,'g',7));
         string.append(',');
-        string.append(QByteArray::number(point.lon));
+        string.append(QByteArray::number(point.lon,'g',7));
         string.append(',');
         string.append(QByteArray::number(PGType2txtType(point.pntType)));
         string.append(',');
@@ -417,13 +430,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 {
     EditPointDialog ed;
-    QString name, coords;
     safePoint_t point=pointModel.getPoint(index.row());
-    int pntType = point.pntType;
-
-
-    name = point.name;
-    coords = index.model()->data(pointModel.index(index.row(),3,QModelIndex()),Qt::DisplayRole).toString();
     int res=ed.exec(point);
     if (res==QDialog::Rejected) return;
     pointModel.setPoint(index.row(),point);
