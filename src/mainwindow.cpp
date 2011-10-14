@@ -4,6 +4,15 @@
 #include "editpointdialog.h"
 #include "aboutdialog.h"
 
+/*
+  Для наших целей должно быть достаточно что разница между N55,723510 и N55,723511 = 0.11 метра разницы,
+  а между E37,382360 и E37,382361 = 0,06 метров разницы
+
+  Широта: d0.0001 = 1.1 метра
+  Долгота: d0.002 = 1.2 метров
+  Подсчеты очень грубые и не учитывают реальное растояние в зависимости от широты и долготы
+*/
+
 class IconMenuStyle : public QProxyStyle
  {
    public:
@@ -81,9 +90,9 @@ void MainWindow::on_action_save_gpx_triggered()
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Не выбрано ни одной точки для сохранения."));
         return;
     }
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт gpx waypoints"),".",tr("Файл точек GPX (*.gpx)"));
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт SpeedCam.txt"),".",tr("Файл точек SpeedCam (*.txt)"));
     if (fileName.isEmpty()) return;
-    if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".gpx");
+    if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");
     bool res=storeInTxt(fileName);
     if (changed) setChanged(!res);
 }
@@ -163,7 +172,7 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         if (str.isEmpty()) continue;
         str=str.trimmed();
         if (str.at(0)==QChar('#')) continue;
-        QStringList params=str.split(",");
+        QStringList params=str.split(',');
         if (params.count()<7) continue; //количество параметров меньше допустимого.
         SafePoint spoint;
         spoint.idx = params.at(0);//IDX
@@ -340,7 +349,7 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл точек SpeedCam (*.txt);; Файл избранных точек ПроГород (usersafety.dat *.dat)"),&selFilt);
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл избранных точек ПроГород (usersafety.dat *.dat);; Файл точек SpeedCam (*.txt)"),&selFilt);
     if (fileName.isEmpty()) return;
     bool res;
     if (selFilt.contains("txt")) {
@@ -373,7 +382,7 @@ void MainWindow::on_action_save_triggered()
     }
 
     bool res;
-    if (QFileInfo(openedFileName).suffix()=="gpx") {
+    if (QFileInfo(openedFileName).suffix()=="txt") {
         res = storeInTxt(openedFileName);
     } else
     {

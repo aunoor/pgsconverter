@@ -263,6 +263,14 @@ void PointModel::appendPoint(const safePoint_t &point)
     emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
 }
 
+void PointModel::insertPoint(const int row, const safePoint_t &point)
+{
+    pointList.insert(row, point);
+    beginInsertRows(QModelIndex(),pointList.count()-1,pointList.count()-1);
+    endInsertRows();
+    emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
+}
+
 void PointModel::clearModel()
 {
     beginRemoveRows(QModelIndex(),0,pointList.count());
@@ -333,4 +341,11 @@ bool PointModel::setPointType(int row, uint type)
     point.pntType = type;
     setPoint(row, point);
     return true;
+}
+
+void PointModel::clonePoint(int row)
+{
+    if (row<0 || row> pointList.count()-1) return;
+    safePoint_t src_point = getPoint(row);
+    insertPoint(row+1,src_point);
 }

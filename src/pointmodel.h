@@ -26,6 +26,7 @@ public:
     bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
 
     void appendPoint(const safePoint_t &point); //добавляет точку в список
+    void insertPoint(const int row, const safePoint_t &point);//вставляет точку в список
     void clearModel(); //очищает данные модели
     void setPointChecked(int row, bool checked); //выбирает или не выбирает точку
     int getCheckedCount();//возвращает количество выбранных записей
@@ -35,6 +36,7 @@ public:
     bool swapRows(int oldRow, int newRow); //меняет записи местами
     bool swapRows(QModelIndex &oldRow, QModelIndex &newRow); //меняет записи местами
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается
+    void clonePoint(int row);//помещает копию точки ниже указанной строки
 };
 
 #endif // POINTMODEL_H
