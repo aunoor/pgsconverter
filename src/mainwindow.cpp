@@ -200,9 +200,10 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
         spoint.direction = params.at(6).toInt(&ok);
         if (!ok) continue;
         spoint.checked=true;
+        if (spoint.pntType<2) continue; //пропускаем неизвестные нам точки.
 
         if (!name.isEmpty()) {
-            spoint.name=name;
+            spoint.name=name.left(128);
         }
 
         spoint.uuid = QUuid::createUuid();

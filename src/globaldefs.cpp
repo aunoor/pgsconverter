@@ -42,18 +42,56 @@ safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
 
 quint8 txtType2PGType(quint8 txt_type)
 {
+
+/*
+Расширенные iGO
+
+
+201 ДИ "Children" "Дети" (без направления и скорости), обозначает места скопления пешеходов, детей и всего живого
+203 ДИ "Tunnel" "Тоннель"
+204 ДИ "Dangerous way" "Опасный участок" (соответствует знаку 1.33 "Прочие опасности ") озвучка: "Впереди опасный участок" Используется для предупреждения о ямах, плохой дороге, ремработах).
+205 ДИ "POI" "Объект ПОИ" (без скорости и без направления) озвучка: "Впереди интересующий Вас объект ПОИ"
+
+
+  */
+
     switch (txt_type) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5: return CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM;
+        case 1: //01 (192) КД "Static" "Стационарная камера"
+        case 2: //02 (194) КД "Redlight" "Камера, встроенная в светофор"
+        case 3: //03 (68) КД "Redlight Only" "Контроль проезда на красный свет" (нет фиксации скорости)
+        case 4: //04 (227) КД "Section" "Измерение скорости на участке"
+        case 5: //05 (193) КД "Mobile" "Мобильная засада" (нет фиксации скорости)
+        //ниже новые коды iGO для камер
+        case 192:
+        case 193:
+        case 194:
+        case 227:
+        case 68:
+        case 8: //08 КД "FixMobil" "Модильная засада"
+        case 199: //199 КД "FixMobil" "Мобильная засада" (с фиксацией скорости, по сути альтернатива КД 05 "Mobile")
+                return CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM;
+        //расширенные коды навител и iGO с комментариями
         case 101: return CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT;
-        case 102: return CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP;
+
+        case 102:
+        case 200: //200 ДИ "Speed Breaker" "Лежкоп" (соответствует знаку 1.17 "Искусственная неровность") озвучка: "Впереди Лежачий коп"
+                 return CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP;
         case 103:
         case 106: return CFG_USER_SAFETY_INFO_TYPE_DANGER;
-        case 104: return CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN;
+
+        case 104:
+        case 202: //202 ДИ "Dangerous turn" "Опасный поворот" (без скорости) (соответствует знаку 1.12.1 "Опасные повороты" озвучка: "Впереди опасный поворот"
+                  return CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN;
+        case 198: //198 ДИ "Give Way" "Уступите дорогу" (без скорости) (соответствует знаку 2.4 "Уступите дорогу") озвучка: "Уступите дорогу"
         case 105: return CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION;
+        case 6: //06 ДИ "Railroad" "Переезд" (без скорости, всегда оба направления)
+        case 197: return CFG_USER_SAFETY_INFO_TYPE_RAILWAY;
+
+        case 15: //15 КД "RPS Post" "ДПС"
+        case 206: //206 КД "RPS Post" "ДПС" озвучка: "Впереди пост ДПС"
+                  return CFG_USER_SAFETY_INFO_TYPE_POLICE;
+        case 9: //09 ДИ "Dangerous" "Опасность" (лежачие, опасные перекрестки, плохая дорога и тп)
+                return CFG_USER_SAFETY_INFO_TYPE_DANGER;
         default: return CFG_USER_SAFETY_INFO_TYPE_NONE;
     }
     return 0;
