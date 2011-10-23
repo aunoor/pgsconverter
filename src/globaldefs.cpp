@@ -51,7 +51,7 @@ quint8 txtType2PGType(quint8 txt_type)
 203 ДИ "Tunnel" "Тоннель"
 204 ДИ "Dangerous way" "Опасный участок" (соответствует знаку 1.33 "Прочие опасности ") озвучка: "Впереди опасный участок" Используется для предупреждения о ямах, плохой дороге, ремработах).
 205 ДИ "POI" "Объект ПОИ" (без скорости и без направления) озвучка: "Впереди интересующий Вас объект ПОИ"
-
+207 - Плохая дорога (Тоже не поддерживается, можно в прочие опасности занести)
 
   */
 
@@ -92,6 +92,8 @@ quint8 txtType2PGType(quint8 txt_type)
                   return CFG_USER_SAFETY_INFO_TYPE_POLICE;
         case 9: //09 ДИ "Dangerous" "Опасность" (лежачие, опасные перекрестки, плохая дорога и тп)
                 return CFG_USER_SAFETY_INFO_TYPE_DANGER;
+        case 201: //201 ДИ "Children" "Дети" (без направления и скорости), обозначает места скопления пешеходов, детей и всего живого
+                return CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE;
         default: return CFG_USER_SAFETY_INFO_TYPE_NONE;
     }
     return 0;
