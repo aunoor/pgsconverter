@@ -45,6 +45,7 @@ private:
     bool changed;
     QString openedFileName;
     PointModel pointModel;
+    QCheckBox *odCheckBox;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
     bool loadCamTxt(QString fileName, SafePointsList &list);

@@ -70,7 +70,7 @@ typedef QList<safePoint_t> SafePointsList;
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt);
 safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint);
 void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list);
-quint8 txtType2PGType(quint8 txt_type);
+quint8 txtType2PGType(quint8 txt_type, bool u2o);
 quint8 PGType2txtType(quint8 pg_type);
 
 #endif // GLOBALDEFS_H

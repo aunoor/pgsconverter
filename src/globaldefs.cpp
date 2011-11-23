@@ -40,7 +40,7 @@ safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
 }
 
 
-quint8 txtType2PGType(quint8 txt_type)
+quint8 txtType2PGType(quint8 txt_type, bool u2o)
 {
 
 /*
@@ -94,7 +94,7 @@ quint8 txtType2PGType(quint8 txt_type)
                 return CFG_USER_SAFETY_INFO_TYPE_DANGER;
         case 201: //201 ДИ "Children" "Дети" (без направления и скорости), обозначает места скопления пешеходов, детей и всего живого
                 return CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE;
-        default: return CFG_USER_SAFETY_INFO_TYPE_NONE;
+        default: if (u2o) return CFG_USER_SAFETY_INFO_TYPE_DANGER; else return CFG_USER_SAFETY_INFO_TYPE_NONE;
     }
     return 0;
 }
