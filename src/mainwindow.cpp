@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    odCheckBox = new QCheckBox(tr("Неизвестные типы как прочие опастности"));
+    odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опастности"));
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
 
