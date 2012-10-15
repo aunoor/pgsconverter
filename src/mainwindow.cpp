@@ -29,15 +29,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опастности"));
+    odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
 
-    this->ui->treeView->setModel(&this->pointModel);
+    proxyModel.setSourceModel(&this->pointModel);
+
+    //this->ui->treeView->setModel(&this->pointModel);
+
+    this->ui->treeView->setModel(&this->proxyModel);
 
     this->ui->treeView->header()->resizeSection(0,110);
-    this->ui->treeView->header()->resizeSection(1,200);
+    this->ui->treeView->header()->resizeSection(1,60);
     this->ui->treeView->header()->resizeSection(2,200);
+    this->ui->treeView->header()->resizeSection(3,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     listMenu.addAction(this->ui->action_check_all);
