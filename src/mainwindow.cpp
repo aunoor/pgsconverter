@@ -33,16 +33,21 @@ MainWindow::MainWindow(QWidget *parent) :
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
 
+    proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
+    
 
     //this->ui->treeView->setModel(&this->pointModel);
 
     this->ui->treeView->setModel(&this->proxyModel);
+//    this->ui->treeView->sortByColumn(0,Qt::DescendingOrder);
+    this->ui->treeView->sortByColumn(0,Qt::AscendingOrder);
 
-    this->ui->treeView->header()->resizeSection(0,110);
-    this->ui->treeView->header()->resizeSection(1,60);
-    this->ui->treeView->header()->resizeSection(2,200);
+    this->ui->treeView->header()->resizeSection(0,80);
+    this->ui->treeView->header()->resizeSection(1,50);
+    this->ui->treeView->header()->resizeSection(2,60);
     this->ui->treeView->header()->resizeSection(3,200);
+    this->ui->treeView->header()->resizeSection(4,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     listMenu.addAction(this->ui->action_check_all);

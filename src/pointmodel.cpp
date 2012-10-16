@@ -9,7 +9,7 @@ PointModel::PointModel()
 
 int PointModel::columnCount(const QModelIndex & parent) const
 {
-    return 4; //N(тип),Ограничение,Координаты,Наименование
+    return 5; //N,тип,Ограничение,Координаты,Наименование
 }
 
 QVariant PointModel::data(const QModelIndex & index, int role) const
@@ -18,18 +18,21 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
 
     if (index.row()>pointList.count()-1) return QVariant();
     switch (role) {
+    case Qt::UserRole:
+	if (index.column()==1) return QVariant((int)pointList.at(index.row()).pntType);
     case Qt::DisplayRole:
         if (index.column()==0) return QVariant(index.row()+1);
-        else if (index.column()==1) return QVariant(pointList.at(index.row()).speed);
-        else if (index.column()==2) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
-        else if (index.column()==3) return ((safePoint_t)pointList.at(index.row())).name;
+        else if (index.column()==1) return QVariant();
+        else if (index.column()==2) return QVariant(pointList.at(index.row()).speed);
+        else if (index.column()==3) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
+        else if (index.column()==4) return ((safePoint_t)pointList.at(index.row())).name;
         break;
     case Qt::CheckStateRole:
         if (index.column()==0) return ((safePoint_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
         else return QVariant();
         break;
     case Qt::DecorationRole:
-        if (index.column()==0)
+        if (index.column()==1)
         {
             QString iconName;
             switch ((int)pointList.at(index.row()).pntType)
@@ -87,9 +90,10 @@ QVariant PointModel::headerData ( int section, Qt::Orientation orientation, int 
         if (orientation==Qt::Horizontal) {
             switch (section) {
             case 0: return tr("N");
-            case 1: return tr("Ограничение");
-            case 2: return tr("Координаты");
-            case 3: return tr("Наименование");
+            case 1: return tr("Тип");
+            case 2: return tr("Ограничение");
+            case 3: return tr("Координаты");
+            case 4: return tr("Наименование");
             default:
                 return QVariant();
             }//switch
