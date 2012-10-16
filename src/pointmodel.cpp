@@ -286,6 +286,7 @@ void PointModel::setPointChecked(int row, bool checked)
 {
     if (row>pointList.count()) return;
     pointList[row].checked=checked;
+    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())));
 }
 
 int PointModel::getCheckedCount()

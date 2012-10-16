@@ -233,6 +233,7 @@ void MainWindow::chCheckItems(bool checked) {
     for (int i=0; i<cnt;i++) {
         pointModel.setPointChecked(i,checked);
     }
+    ui->treeView->repaint();
 }
 
 void MainWindow::on_action_check_all_triggered()
@@ -477,34 +478,6 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
         }
     }
     return false;
-}
-
-void MainWindow::setIcon_Type()
-{
-    QModelIndex index=ui->treeView->currentIndex();
-    if (!index.isValid()) return;
-
-    int icn_t = ((QAction*)this->sender())->data().toInt();
-    safePoint_t point=pointModel.getPoint(index.row());
-/*
-    if (icn_t==99) {
-        pointModel.setPointType(index.row(), ptNone);
-    } else
-    if (icn_t==98) {
-        pointModel.setPointType(index.row(), ptHome);
-    } else
-    if (icn_t==97) {
-        pointModel.setPointType(index.row(), ptOffice);
-    } else
-    if (icn_t==96) {
-        point.iconNum=0;
-        pointModel.setPoint(index.row(),point);
-    } else
-    if (icn_t>-1 && icn_t<21) {
-        point.iconNum = icn_t;
-        pointModel.setPoint(index.row(),point);
-    }
-    */
 }
 
 QMenu *MainWindow::createPopupMenu ()

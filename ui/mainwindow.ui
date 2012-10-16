@@ -27,6 +27,9 @@
       <property name="dragDropMode">
        <enum>QAbstractItemView::DragDrop</enum>
       </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ContiguousSelection</enum>
+      </property>
       <property name="iconSize">
        <size>
         <width>24</width>
