@@ -12,21 +12,21 @@
         <file>icons/save_as_pg.png</file>
         <file>icons/help.png</file>
         <file>icons/map_edit.png</file>
-        <file>icons/pg_icons/animals.ico</file>
-        <file>icons/pg_icons/att.ico</file>
-        <file>icons/pg_icons/camera.ico</file>
-        <file>icons/pg_icons/children.ico</file>
-        <file>icons/pg_icons/dps.ico</file>
-        <file>icons/pg_icons/qu.ico</file>
-        <file>icons/pg_icons/rc.ico</file>
-        <file>icons/pg_icons/sb.ico</file>
-        <file>icons/pg_icons/50.ico</file>
-        <file>icons/pg_icons/60.ico</file>
-        <file>icons/pg_icons/70.ico</file>
-        <file>icons/pg_icons/80.ico</file>
-        <file>icons/pg_icons/90.ico</file>
-        <file>icons/pg_icons/100.ico</file>
-        <file>icons/pg_icons/110.ico</file>
+        <file>icons/pg_icons/animals.png</file>
+        <file>icons/pg_icons/att.png</file>
+        <file>icons/pg_icons/camera.png</file>
+        <file>icons/pg_icons/children.png</file>
+        <file>icons/pg_icons/dps.png</file>
+        <file>icons/pg_icons/qu.png</file>
+        <file>icons/pg_icons/rc.png</file>
+        <file>icons/pg_icons/sb.png</file>
+        <file>icons/pg_icons/50.png</file>
+        <file>icons/pg_icons/60.png</file>
+        <file>icons/pg_icons/70.png</file>
+        <file>icons/pg_icons/80.png</file>
+        <file>icons/pg_icons/90.png</file>
+        <file>icons/pg_icons/100.png</file>
+        <file>icons/pg_icons/110.png</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

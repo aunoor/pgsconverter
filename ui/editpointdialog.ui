@@ -139,7 +139,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/qu.ico</normaloff>:/gui/icons/pg_icons/qu.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/qu.png</normaloff>:/gui/icons/pg_icons/qu.png</iconset>
         </property>
        </item>
        <item>
@@ -148,7 +148,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/50.ico</normaloff>:/gui/icons/pg_icons/50.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/50.png</normaloff>:/gui/icons/pg_icons/50.png</iconset>
         </property>
        </item>
        <item>
@@ -157,7 +157,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/children.ico</normaloff>:/gui/icons/pg_icons/children.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/children.png</normaloff>:/gui/icons/pg_icons/children.png</iconset>
         </property>
        </item>
        <item>
@@ -166,7 +166,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/att.ico</normaloff>:/gui/icons/pg_icons/att.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/att.png</normaloff>:/gui/icons/pg_icons/att.png</iconset>
         </property>
        </item>
        <item>
@@ -175,7 +175,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/sb.ico</normaloff>:/gui/icons/pg_icons/sb.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/sb.png</normaloff>:/gui/icons/pg_icons/sb.png</iconset>
         </property>
        </item>
        <item>
@@ -184,7 +184,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/animals.ico</normaloff>:/gui/icons/pg_icons/animals.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/animals.png</normaloff>:/gui/icons/pg_icons/animals.png</iconset>
         </property>
        </item>
        <item>
@@ -193,7 +193,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/rc.ico</normaloff>:/gui/icons/pg_icons/rc.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/rc.png</normaloff>:/gui/icons/pg_icons/rc.png</iconset>
         </property>
        </item>
        <item>
@@ -202,7 +202,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/dps.ico</normaloff>:/gui/icons/pg_icons/dps.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/dps.png</normaloff>:/gui/icons/pg_icons/dps.png</iconset>
         </property>
        </item>
        <item>
@@ -211,7 +211,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/camera.ico</normaloff>:/gui/icons/pg_icons/camera.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/camera.png</normaloff>:/gui/icons/pg_icons/camera.png</iconset>
         </property>
        </item>
        <item>
@@ -220,7 +220,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/att.ico</normaloff>:/gui/icons/pg_icons/att.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/att.png</normaloff>:/gui/icons/pg_icons/att.png</iconset>
         </property>
        </item>
        <item>
@@ -229,7 +229,7 @@
         </property>
         <property name="icon">
          <iconset resource="../images.qrc">
-          <normaloff>:/gui/icons/pg_icons/att.ico</normaloff>:/gui/icons/pg_icons/att.ico</iconset>
+          <normaloff>:/gui/icons/pg_icons/att.png</normaloff>:/gui/icons/pg_icons/att.png</iconset>
         </property>
        </item>
       </widget>
