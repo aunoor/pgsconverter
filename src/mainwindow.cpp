@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
-    
 
     //this->ui->treeView->setModel(&this->pointModel);
 

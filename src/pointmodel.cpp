@@ -18,21 +18,21 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
 
     if (index.row()>pointList.count()-1) return QVariant();
     switch (role) {
-//    case Qt::UserRole:
-//	if (index.column()==1) return QVariant((int)pointList.at(index.row()).pntType);
-    case Qt::DisplayRole:
+       case Qt::UserRole:
+        if (index.column()==1) return QVariant((int)pointList.at(index.row()).pntType);
+       case Qt::DisplayRole:
         if (index.column()==0) return QVariant(index.row()+1);
         else if (index.column()==1) return QVariant();
         else if (index.column()==2) return QVariant(pointList.at(index.row()).speed);
         else if (index.column()==3) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
         else if (index.column()==4) return ((safePoint_t)pointList.at(index.row())).name;
         break;
-    case Qt::CheckStateRole:
+       case Qt::CheckStateRole:
         if (index.column()==0) return ((safePoint_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
         else return QVariant();
         break;
-    case Qt::DecorationRole:
-        if (index.column()==0)
+       case Qt::DecorationRole:
+        if (index.column()==1)
         {
             QString iconName;
             switch ((int)pointList.at(index.row()).pntType)
@@ -51,12 +51,11 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
               case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.png"; break;
             default: iconName=":/gui/icons/pg_icons/qu.png";
             }
-            iconName=":/gui/icons/open.png";
             QIcon icon(iconName);
             return icon;
         }
         break;
-    default:
+       default:
         QVariant();
     }//switch
     return QVariant();
