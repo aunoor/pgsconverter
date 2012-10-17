@@ -18,8 +18,8 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
 
     if (index.row()>pointList.count()-1) return QVariant();
     switch (role) {
-    case Qt::UserRole:
-	if (index.column()==1) return QVariant((int)pointList.at(index.row()).pntType);
+//    case Qt::UserRole:
+//	if (index.column()==1) return QVariant((int)pointList.at(index.row()).pntType);
     case Qt::DisplayRole:
         if (index.column()==0) return QVariant(index.row()+1);
         else if (index.column()==1) return QVariant();
@@ -32,7 +32,7 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         else return QVariant();
         break;
     case Qt::DecorationRole:
-        if (index.column()==1)
+        if (index.column()==0)
         {
             QString iconName;
             switch ((int)pointList.at(index.row()).pntType)
@@ -51,6 +51,7 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
               case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.ico"; break;
             default: iconName=":/gui/icons/pg_icons/qu.ico";
             }
+            iconName=":/gui/icons/open.png";
             QIcon icon(iconName);
             return icon;
         }
@@ -255,22 +256,22 @@ bool PointModel::removeRow (int row, const QModelIndex & parent)
     beginRemoveRows(QModelIndex(),row, row);
     pointList.removeAt(row);
     endRemoveRows();
-    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())));
     return true;
 }
 
 void PointModel::appendPoint(const safePoint_t &point)
 {
+    unsigned int rNum=0;
+    if (pointList.count()>0) rNum=pointList.count();
+    beginInsertRows(QModelIndex(),rNum,rNum);
     pointList.append(point);
-    beginInsertRows(QModelIndex(),pointList.count()-1,pointList.count()-1);
     endInsertRows();
-    emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
 }
 
 void PointModel::insertPoint(const int row, const safePoint_t &point)
 {
+    beginInsertRows(QModelIndex(),row,row);
     pointList.insert(row, point);
-    beginInsertRows(QModelIndex(),pointList.count()-1,pointList.count()-1);
     endInsertRows();
     emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
 }
