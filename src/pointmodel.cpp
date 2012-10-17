@@ -37,19 +37,19 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
             QString iconName;
             switch ((int)pointList.at(index.row()).pntType)
             {
-              case CFG_USER_SAFETY_INFO_TYPE_NONE: iconName=":/gui/icons/pg_icons/qu.ico"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_NONE: iconName=":/gui/icons/pg_icons/qu.png"; break;
             //пока на ограничение скорости отрисуем 50
-              case CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT: iconName=":/gui/icons/pg_icons/50.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE: iconName=":/gui/icons/pg_icons/children.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_DANGER: iconName=":/gui/icons/pg_icons/att.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP: iconName=":/gui/icons/pg_icons/sb.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_WILDLIFE: iconName=":/gui/icons/pg_icons/animals.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_RAILWAY: iconName=":/gui/icons/pg_icons/rc.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_POLICE: iconName=":/gui/icons/pg_icons/dps.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: iconName=":/gui/icons/pg_icons/camera.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: iconName=":/gui/icons/pg_icons/att.ico"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.ico"; break;
-            default: iconName=":/gui/icons/pg_icons/qu.ico";
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT: iconName=":/gui/icons/pg_icons/50.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE: iconName=":/gui/icons/pg_icons/children.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGER: iconName=":/gui/icons/pg_icons/att.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP: iconName=":/gui/icons/pg_icons/sb.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_WILDLIFE: iconName=":/gui/icons/pg_icons/animals.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_RAILWAY: iconName=":/gui/icons/pg_icons/rc.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_POLICE: iconName=":/gui/icons/pg_icons/dps.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: iconName=":/gui/icons/pg_icons/camera.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: iconName=":/gui/icons/pg_icons/att.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.png"; break;
+            default: iconName=":/gui/icons/pg_icons/qu.png";
             }
             QIcon icon(iconName);
             return icon;
