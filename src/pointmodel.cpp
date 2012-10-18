@@ -272,7 +272,7 @@ void PointModel::insertPoint(const int row, const safePoint_t &point)
     beginInsertRows(QModelIndex(),row,row);
     pointList.insert(row, point);
     endInsertRows();
-    emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
+//    emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
 }
 
 void PointModel::clearModel()
@@ -353,4 +353,12 @@ void PointModel::clonePoint(int row)
     if (row<0 || row> pointList.count()-1) return;
     safePoint_t src_point = getPoint(row);
     insertPoint(row+1,src_point);
+}
+
+void PointModel::massCheck(QModelIndexList &list, bool checked)
+{
+    if (list.size()==0) return;
+    for (int i=0;i<list.size();i++) {
+        pointList[list.at(i).row()].checked=checked;
+    }//for
 }

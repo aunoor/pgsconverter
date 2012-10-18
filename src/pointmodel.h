@@ -37,6 +37,7 @@ public:
     bool swapRows(QModelIndex &oldRow, QModelIndex &newRow); //меняет записи местами
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается
     void clonePoint(int row);//помещает копию точки ниже указанной строки
+    void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
 };
 
 #endif // POINTMODEL_H

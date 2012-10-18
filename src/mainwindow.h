@@ -32,9 +32,9 @@ private slots:
     void on_action_save_as_triggered();
     void on_action_save_triggered();
     void on_action_about_prog_triggered();
-    void pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight);
-
     void on_action_clone_point_triggered();
+    void pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+    void pointModel_rowChanged_slot(const QModelIndex &parent, int start, int end);
 
 private:
     Ui::MainWindow *ui;
@@ -45,6 +45,7 @@ private:
     QString openedFileName;
     PointModel pointModel;
     QCheckBox *odCheckBox;
+    QLabel *ovCounLabel;
     QSortFilterProxyModel proxyModel;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
@@ -54,6 +55,7 @@ private:
     bool storeInSafeDat(QString &fileName);
     int  countCheckedItems();
     void setChanged(bool ch);
+    void updateCount();
     QMenu *createPopupMenu(); //заглушка, что бы не показывалось мену у тулбара
 
 protected:

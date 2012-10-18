@@ -29,17 +29,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ovCounLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
+    this->ui->statusbar->addWidget(ovCounLabel);
 
     proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
 
-    //this->ui->treeView->setModel(&this->pointModel);
-
     this->ui->treeView->setModel(&this->proxyModel);
-//    this->ui->treeView->sortByColumn(0,Qt::DescendingOrder);
     this->ui->treeView->sortByColumn(0,Qt::AscendingOrder);
 
     this->ui->treeView->header()->resizeSection(0,80);
@@ -74,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->insertAction(ui->action_about_prog,wact);
 
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
+    connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
+    connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
 }
 
 MainWindow::~MainWindow()
@@ -339,7 +340,6 @@ void MainWindow::on_action_append_from_file_triggered()
 
 void MainWindow::on_action_open_file_triggered()
 {
-
     QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),".",tr("Файлы с путевыми точками (*.txt usersafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     SafePointsList safeList;
@@ -359,7 +359,6 @@ void MainWindow::on_action_del_from_list_triggered()
 
 void MainWindow::on_treeView_customContextMenuRequested(QPoint pos)
 {
-
     ui->action_del_from_list->setEnabled(ui->treeView->indexAt(pos).isValid());
     iconMenu.setEnabled(ui->treeView->indexAt(pos).isValid());
     QPoint locPos = mapToGlobal(pos);
@@ -402,6 +401,7 @@ void MainWindow::setChanged(bool ch)
     }
     if (changed) wt.append(" *");
     this->setWindowTitle(wt);
+    updateCount();
 }
 
 void MainWindow::on_action_save_triggered()
@@ -444,6 +444,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 {
+    if (index.column()==1) {
+        QAbstractItemModel *model=ui->treeView->model();
+        QModelIndex tmpIndex=model->index(index.row(),1);
+        int currentType=model->data(tmpIndex,Qt::UserRole).toInt();
+
+        for (int i=0;i<model->rowCount();i++) {
+            QModelIndex tmpIndex=model->index(i,1);
+            if (currentType==model->data(tmpIndex,Qt::UserRole).toInt()) {
+                ui->treeView->selectionModel()->select(tmpIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+            }//if
+        }//for
+        return;
+    }
+
     EditPointDialog ed;
     safePoint_t point=pointModel.getPoint(index.row());
     int res=ed.exec(point);
@@ -453,7 +467,18 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 
 void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
+
+   if (topLeft.column()==0) {
+       bool checked = pointModel.getPoint(topLeft.row()).checked;
+       QModelIndexList selList=ui->treeView->selectionModel()->selectedRows(0);
+       pointModel.massCheck(selList,checked);
+   }
    setChanged(true);
+}
+
+void MainWindow::pointModel_rowChanged_slot(const QModelIndex &parent, int start, int end)
+{
+    setChanged(true);
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
@@ -489,4 +514,9 @@ void MainWindow::on_action_clone_point_triggered()
     QModelIndex index=ui->treeView->currentIndex();
     if (!index.isValid()) return;
     pointModel.clonePoint(index.row());
+}
+
+void MainWindow::updateCount()
+{
+    ovCounLabel->setText(" "+QString::number(pointModel.getPointsCount())+" ");
 }
