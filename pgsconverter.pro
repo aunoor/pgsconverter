@@ -30,3 +30,4 @@ MOC_DIR = tmp/.moc
 OBJECTS_DIR = tmp/.obj
 RCC_DIR = tmp/.rcc
 RESOURCES += images.qrc
+VERSION=1.0.9
