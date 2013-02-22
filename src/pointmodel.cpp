@@ -1,3 +1,4 @@
+#include <cstring>
 #include "pointmodel.h"
 
 //IDX, X,       Y,       TYPE,SPEED,DIRTYPE,DIRECTION,
@@ -146,10 +147,10 @@ bool PointModel::dropMimeData(const QMimeData *data,
     qint64 aPid=0;
     QByteArray ba=data->data(MIME_RAW_POINT_TYPE);
 
-    qMemCopy(&aPid, ba.constData(),sizeof(aPid));
+    std::memcpy(&aPid, ba.constData(),sizeof(aPid));
     ba.remove(0,sizeof(aPid));
 
-    qMemCopy(&cnt,ba.constData(),sizeof(cnt));
+    std::memcpy(&cnt,ba.constData(),sizeof(cnt));
     ba.remove(0,sizeof(cnt));
 
     bool moveMode=true;
@@ -159,11 +160,11 @@ bool PointModel::dropMimeData(const QMimeData *data,
 
     for (int i=0;i<cnt;i++) {
         safeRecordV1_t safeRawPoint;
-        qMemCopy(&safeRawPoint,ba.constData(), sizeof(safeRecordV1_t));
+        std::memcpy(&safeRawPoint,ba.constData(), sizeof(safeRecordV1_t));
         addRawPointToPointList(safeRawPoint, tmpPL);
         ba.remove(0, sizeof(safeRecordV1_t));
         int uuidLen;
-        qMemCopy(&uuidLen,ba.constData(),sizeof(uuidLen));
+        std::memcpy(&uuidLen,ba.constData(),sizeof(uuidLen));
         ba.remove(0,sizeof(uuidLen));
 
         QByteArray dsBa = ba.left(uuidLen);

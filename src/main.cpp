@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QApplication>
 #include <QObject>
 #include "mainwindow.h"
 #include "globaldefs.h"
@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(VERSION);
     a.setApplicationName("PGSConverter");
 
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+#if (QT_VERSION < 0x050000)
+      QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+#endif
 
     QTranslator translator;
     translator.load(":/translation/qt_ru.qm");

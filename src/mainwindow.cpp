@@ -1,4 +1,10 @@
 #include <QtXml>
+#include <QProxyStyle>
+#include <QWidgetAction>
+#include <QScrollArea>
+#include <QMessageBox>
+#include <QFileDialog>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "editpointdialog.h"
@@ -143,8 +149,7 @@ bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
             return false;
         }
         safeRecordV1_t safeRecord;
-        qMemCopy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
-
+        std::memcpy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
         addRawPointToPointList(safeRecord, list);
     }
 

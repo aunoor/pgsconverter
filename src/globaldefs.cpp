@@ -1,9 +1,10 @@
+#include <cstring>
 #include "globaldefs.h"
 
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
 {
     //преобразуем точку из нашего формата в формат ПГ
-    qMemSet((void*)rawPnt,0,sizeof(safeRecordV1_t));
+    std::memset((void*)rawPnt,0,sizeof(safeRecordV1_t));
 
     rawPnt->pos_x=qRound(pnt.lat*100000);
     rawPnt->pos_y=qRound(pnt.lon*100000);

@@ -2,8 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QtGui>
+#include <QMainWindow>
+#include <QMenu>
+#include <QCheckBox>
+#include <QLabel>
+
+
 #include "pointmodel.h"
 #include "globaldefs.h"
+
 
 namespace Ui {
     class MainWindow;

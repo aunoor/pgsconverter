@@ -4,9 +4,11 @@
 QT += core \
     gui \
     xml
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = pgsconverter
 CONFIG -= console
-CONFIG -= app_bundle
+#CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \

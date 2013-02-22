@@ -1,7 +1,7 @@
 #ifndef EDITPOINTDIALOG_H
 #define EDITPOINTDIALOG_H
 
-#include <QtGui>
+#include <QDialog>
 #include "pointmodel.h"
 
 namespace Ui {
