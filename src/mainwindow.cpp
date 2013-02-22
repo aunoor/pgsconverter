@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QCoreApplication::setApplicationName("pgsconverter");
+
     ovCounLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
@@ -346,8 +348,12 @@ void MainWindow::on_action_append_from_file_triggered()
 
 void MainWindow::on_action_open_file_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),".",tr("Файлы с путевыми точками (*.txt usersafety.dat *.dat)"));
+    QString openDir=settings.value("openDir").toString();
+    if (openDir.isEmpty()) openDir=".";
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с путевыми точками (*.txt usersafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
+    QFileInfo fileInfo(fileName);
+    settings.setValue("openDir",fileInfo.absolutePath());
     SafePointsList safeList;
     if (QFileInfo(fileName).suffix()=="txt") {if (!loadCamTxt(fileName, safeList)) return;}
     else {if (!loadSafeRecords(fileName, safeList)) return; }
@@ -384,8 +390,12 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
+    QString saveDir=settings.value("saveDir").toString();
+    if (saveDir.isEmpty()) saveDir=".";
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл избранных точек ПроГород (usersafety.dat *.dat);; Файл точек SpeedCam (*.txt)"),&selFilt);
     if (fileName.isEmpty()) return;
+    QFileInfo fileInfo(fileName);
+    settings.setValue("saveDir",fileInfo.absolutePath());
     bool res;
     if (selFilt.contains("txt")) {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");

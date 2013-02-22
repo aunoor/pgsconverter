@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QCheckBox>
 #include <QLabel>
+#include <QSettings>
 
 
 #include "pointmodel.h"
@@ -54,6 +55,7 @@ private:
     QCheckBox *odCheckBox;
     QLabel *ovCounLabel;
     QSortFilterProxyModel proxyModel;
+    QSettings settings;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
     bool loadCamTxt(QString fileName, SafePointsList &list);
