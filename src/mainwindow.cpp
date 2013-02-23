@@ -168,7 +168,7 @@ void MainWindow::showPointList(SafePointsList &list, bool append) {
     ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
 }
 
-bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
+bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8) {
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
@@ -193,7 +193,7 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list) {
 
     while (!file.atEnd()) {
         QByteArray line=file.readLine();
-        QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+        QTextCodec *codec = QTextCodec::codecForName(isUTF8?"UTF-8":"Windows-1251");
         QString str=codec->toUnicode(line);
         QString name;
         if (str.isEmpty()) continue;
@@ -285,7 +285,8 @@ bool MainWindow::storeInTxt(QString &fileName){
         string.append(',');
         string.append(QByteArray::number(point.direction));
         if (!point.name.isEmpty()) {
-            QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+            //QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
+            QTextCodec *codec = QTextCodec::codecForName("UTF-8");
             string.append(" //");
             string.append(codec->fromUnicode(point.name));
         }
@@ -334,10 +335,19 @@ bool MainWindow::storeInSafeDat(QString &fileName){
 
 void MainWindow::on_action_append_from_file_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с точками (*.txt usersafety.dat *.dat)"));
+    QString openDir=settings.value("appendDir").toString();
+    if (openDir.isEmpty()) openDir=".";
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с точками (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
+    QFileInfo fileInfo(fileName);
+    settings.setValue("appendDir",fileInfo.absolutePath());
     SafePointsList safeList;
-    if (QFileInfo(fileName).suffix()=="txt") {if (!loadCamTxt(fileName, safeList)) return;}
+    if (QFileInfo(fileName).suffix()=="txt") {
+        bool isUTF=false;
+        if (selectedFilter.contains("UTF8")) isUTF=true;
+        if (!loadCamTxt(fileName, safeList, isUTF)) return;
+    }
     else {if (!loadSafeRecords(fileName, safeList)) return; }
     showPointList(safeList, true);
     if (!openedFileName.isEmpty()) setChanged(true);
@@ -350,12 +360,18 @@ void MainWindow::on_action_open_file_triggered()
 {
     QString openDir=settings.value("openDir").toString();
     if (openDir.isEmpty()) openDir=".";
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с путевыми точками (*.txt usersafety.dat *.dat)"));
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с путевыми точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
+    qDebug() << selectedFilter;
     settings.setValue("openDir",fileInfo.absolutePath());
     SafePointsList safeList;
-    if (QFileInfo(fileName).suffix()=="txt") {if (!loadCamTxt(fileName, safeList)) return;}
+    if (QFileInfo(fileName).suffix()=="txt") {
+        bool isUTF=false;
+        if (selectedFilter.contains("UTF8")) isUTF=true;
+        if (!loadCamTxt(fileName, safeList, isUTF)) return;
+    }
     else {if (!loadSafeRecords(fileName, safeList)) return; }
     openedFileName = fileName;
     showPointList(safeList, false);

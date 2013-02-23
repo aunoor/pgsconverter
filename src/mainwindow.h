@@ -58,7 +58,7 @@ private:
     QSettings settings;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
-    bool loadCamTxt(QString fileName, SafePointsList &list);
+    bool loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8);
     void chCheckItems(bool checked);
     bool storeInTxt(QString &fileName);
     bool storeInSafeDat(QString &fileName);
