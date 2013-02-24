@@ -4,6 +4,7 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <cstring>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -106,7 +107,6 @@ void MainWindow::on_action_export_fav_triggered()
     if (saveDir.isEmpty()) saveDir=".";
     QDir dir(saveDir);
     saveDir=dir.absoluteFilePath("UserSafety.dat");
-    qDebug() << saveDir;
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт UserSafety.dat"),saveDir,tr("Файл UserSafety точек ПроГород (UserSafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
@@ -358,7 +358,6 @@ void MainWindow::on_action_open_file_triggered()
     QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
-    qDebug() << selectedFilter;
     settings.setValue("openDir",fileInfo.absolutePath());
     SafePointsList safeList;
     if (QFileInfo(fileName).suffix()=="txt") {
