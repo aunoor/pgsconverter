@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "v1.0.10"
+#define VERSION "v1.0.11"
 
 #define MIME_RAW_POINT_TYPE "application/x-rawsafepointlist"
 

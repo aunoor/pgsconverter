@@ -102,23 +102,17 @@ void MainWindow::on_action_export_fav_triggered()
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Не выбрано ни одной точки для сохранения."));
         return;
     }
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт UserSafety.dat"),".",tr("Файл UserSafety точек ПроГород (UserSafety.dat *.dat)"));
+    QString saveDir=settings.value("exportDir").toString();
+    if (saveDir.isEmpty()) saveDir=".";
+    QDir dir(saveDir);
+    saveDir=dir.absoluteFilePath("UserSafety.dat");
+    qDebug() << saveDir;
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт UserSafety.dat"),saveDir,tr("Файл UserSafety точек ПроГород (UserSafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
+    QFileInfo fileInfo(fileName);
+    settings.setValue("exportDir",fileInfo.absolutePath());
     if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
     bool res=storeInSafeDat(fileName);
-    if (changed) setChanged(!res);
-}
-
-void MainWindow::on_action_save_gpx_triggered()
-{
-    if (!countCheckedItems()) {
-        QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Не выбрано ни одной точки для сохранения."));
-        return;
-    }
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт SpeedCam.txt"),".",tr("Файл точек SpeedCam (*.txt)"));
-    if (fileName.isEmpty()) return;
-    if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");
-    bool res=storeInTxt(fileName);
     if (changed) setChanged(!res);
 }
 
@@ -338,7 +332,7 @@ void MainWindow::on_action_append_from_file_triggered()
     QString openDir=settings.value("appendDir").toString();
     if (openDir.isEmpty()) openDir=".";
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),".",tr("Файлы с точками (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),openDir,tr("Файлы с точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     settings.setValue("appendDir",fileInfo.absolutePath());
@@ -361,7 +355,7 @@ void MainWindow::on_action_open_file_triggered()
     QString openDir=settings.value("openDir").toString();
     if (openDir.isEmpty()) openDir=".";
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с путевыми точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     qDebug() << selectedFilter;
@@ -408,7 +402,7 @@ void MainWindow::on_action_save_as_triggered()
     QString selFilt;
     QString saveDir=settings.value("saveDir").toString();
     if (saveDir.isEmpty()) saveDir=".";
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),".",tr("Файл избранных точек ПроГород (usersafety.dat *.dat);; Файл точек SpeedCam (*.txt)"),&selFilt);
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),saveDir,tr("Файл избранных точек ПроГород (usersafety.dat *.dat);; Файл точек SpeedCam (*.txt)"),&selFilt);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     settings.setValue("saveDir",fileInfo.absolutePath());

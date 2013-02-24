@@ -33,7 +33,6 @@ private slots:
     void on_action_append_from_file_triggered();
     void on_action_exit_triggered();
     void on_action_export_fav_triggered();
-    void on_action_save_gpx_triggered();
     void on_action_check_all_triggered();
     void on_action_uncheck_all_triggered();
     void on_action_about_Qt_triggered();
