@@ -36,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QCoreApplication::setApplicationName("pgsconverter");
-
     ovCounLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);

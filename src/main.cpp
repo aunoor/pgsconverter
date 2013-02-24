@@ -7,8 +7,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    a.setApplicationVersion(VERSION);
     a.setApplicationName("PGSConverter");
+    a.setOrganizationName("Darkstar");
+    a.setOrganizationDomain("darkstar.com");
+    a.setApplicationVersion(VERSION);
 
 #if (QT_VERSION < 0x050000)
       QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
