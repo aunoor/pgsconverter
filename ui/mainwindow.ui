@@ -92,7 +92,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -248,6 +248,11 @@
   <action name="action_clone_point">
    <property name="text">
     <string>Клонировать точку</string>
+   </property>
+  </action>
+  <action name="action_remove_twins">
+   <property name="text">
+    <string>Удалить дубли</string>
    </property>
   </action>
  </widget>

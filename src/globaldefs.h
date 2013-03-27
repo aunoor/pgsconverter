@@ -49,6 +49,8 @@ typedef struct SafeRecord_V1
    char         name[128];
 }safeRecordV1_t;
 
+typedef struct SafePoint safePoint_t;
+
 typedef struct SafePoint {
     QString idx; //индекс. может быть любым
     double lon;//X - долгота
@@ -61,6 +63,9 @@ typedef struct SafePoint {
     quint16 iconNum;
     QUuid uuid;
     QString name;
+    bool operator==(const safePoint_t &other) const {
+        return (this->lat==other.lat && lon==other.lon);
+    }
 }safePoint_t;
 
 Q_DECLARE_METATYPE(safePoint_t)

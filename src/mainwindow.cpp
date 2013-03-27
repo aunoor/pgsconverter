@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_clone_point);
     listMenu.addSeparator();
     listMenu.addAction(this->ui->action_del_from_list);
+    listMenu.addAction(this->ui->action_remove_twins);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
     this->setWindowIcon(QIcon(":/gui/icons/map_edit.png"));
@@ -330,7 +331,7 @@ void MainWindow::on_action_append_from_file_triggered()
     QString openDir=settings.value("appendDir").toString();
     if (openDir.isEmpty()) openDir=".";
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),openDir,tr("Файлы с точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),openDir,tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     settings.setValue("appendDir",fileInfo.absolutePath());
@@ -353,7 +354,7 @@ void MainWindow::on_action_open_file_triggered()
     QString openDir=settings.value("openDir").toString();
     if (openDir.isEmpty()) openDir=".";
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с точками(UTF8) (*.txt usersafety.dat *.dat);;Файлы с путевыми точками(Windows-1251) (*.txt)"),&selectedFilter);
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)"),&selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     settings.setValue("openDir",fileInfo.absolutePath());
@@ -542,4 +543,9 @@ void MainWindow::on_action_clone_point_triggered()
 void MainWindow::updateCount()
 {
     ovCounLabel->setText(" "+QString::number(pointModel.getPointsCount())+" ");
+}
+
+void MainWindow::on_action_remove_twins_triggered()
+{
+    pointModel.delete_twins();
 }

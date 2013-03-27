@@ -43,6 +43,8 @@ private slots:
     void pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void pointModel_rowChanged_slot(const QModelIndex &parent, int start, int end);
 
+    void on_action_remove_twins_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMenu listMenu;

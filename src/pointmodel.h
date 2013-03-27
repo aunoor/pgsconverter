@@ -38,6 +38,7 @@ public:
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается
     void clonePoint(int row);//помещает копию точки ниже указанной строки
     void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
+    void delete_twins(); //удаляет дубли из списка
 };
 
 #endif // POINTMODEL_H
