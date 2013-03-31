@@ -366,19 +366,22 @@ void PointModel::massCheck(QModelIndexList &list, bool checked)
 
 void PointModel::delete_twins()
 {
-    beginResetModel();
 
-    QStringList ids;
+
+    QList<QUuid> ids;
     for (int i=0;i<pointList.count();i++) {
         for (int i2=i+1;i2<pointList.count();i2++) {
-            if (pointList.at(i)==pointList.at(i2)) ids.append(pointList.at(i2).idx);
+            if (pointList.at(i)==pointList.at(i2)) ids.append(pointList.at(i2).uuid);
         }//for i2
     }//for i
 
+    if (!ids.count()) return;
+
+    beginResetModel();
     for (int i=0;i<ids.count();i++) {
         SafePointsList::iterator curr=pointList.begin();
         while (curr!=pointList.end()) {
-            if ((*curr).idx==ids.at(i)) curr=pointList.erase(curr);
+            if ((*curr).uuid==ids.at(i)) curr=pointList.erase(curr);
             else curr++;
         }//while
     }//for i

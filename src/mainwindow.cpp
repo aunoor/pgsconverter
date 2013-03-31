@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
+    connect(&pointModel,SIGNAL(modelReset()), SLOT(pointModel_modelReset_slot()));
 }
 
 MainWindow::~MainWindow()
@@ -498,6 +499,11 @@ void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const Q
        pointModel.massCheck(selList,checked);
    }
    setChanged(true);
+}
+
+void MainWindow::pointModel_modelReset_slot()
+{
+    setChanged(true);
 }
 
 void MainWindow::pointModel_rowChanged_slot(const QModelIndex &parent, int start, int end)

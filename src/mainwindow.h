@@ -42,6 +42,7 @@ private slots:
     void on_action_clone_point_triggered();
     void pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void pointModel_rowChanged_slot(const QModelIndex &parent, int start, int end);
+    void pointModel_modelReset_slot();
 
     void on_action_remove_twins_triggered();
 
