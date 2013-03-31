@@ -68,7 +68,7 @@ quint8 txtType2PGType(quint8 txt_type, bool u2o)
         case 194:
         case 227:
         case 68:
-        case 8: //08 КД "FixMobil" "Модильная засада"
+        case 8: //08 КД "FixMobil" "Мобильная засада"
         case 199: //199 КД "FixMobil" "Мобильная засада" (с фиксацией скорости, по сути альтернатива КД 05 "Mobile")
                 return CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM;
         //расширенные коды навител и iGO с комментариями
@@ -106,7 +106,6 @@ quint8 PGType2txtType(quint8 pg_type)
      case CFG_USER_SAFETY_INFO_TYPE_SPEEDLIMIT: return 101;
      case CFG_USER_SAFETY_INFO_TYPE_SPEEDBUMP: return 102;
      case CFG_USER_SAFETY_INFO_TYPE_DANGER:
-     case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE:
      case CFG_USER_SAFETY_INFO_TYPE_WILDLIFE:
      case CFG_USER_SAFETY_INFO_TYPE_RAILWAY:
      case CFG_USER_SAFETY_INFO_TYPE_POLICE:
@@ -114,6 +113,8 @@ quint8 PGType2txtType(quint8 pg_type)
      case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: return 1;
      case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: return 105;
      case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: return 104;
+     case CFG_USER_SAFETY_INFO_TYPE_PASSWAY:
+     case CFG_USER_SAFETY_INFO_TYPE_SCHOOLZONE: return 201;
 
         default: return 106;
     }
