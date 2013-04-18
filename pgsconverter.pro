@@ -15,12 +15,14 @@ SOURCES += src/main.cpp \
     src/editpointdialog.cpp \
     src/aboutdialog.cpp \
     src/pointmodel.cpp \
-    src/globaldefs.cpp
+    src/globaldefs.cpp \
+    src/safe_bin.cpp
 HEADERS += src/mainwindow.h \
     src/editpointdialog.h \
     src/aboutdialog.h \
     src/pointmodel.h \
-    src/globaldefs.h
+    src/globaldefs.h \
+    src/safe_bin.h
 FORMS += ui/mainwindow.ui \
     ui/editpointdialog.ui \
     ui/aboutdialog.ui

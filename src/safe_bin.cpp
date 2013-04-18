@@ -1,0 +1,71 @@
+#include <QObject>
+#include <QFile>
+#include <QMessageBox>
+#include <cstring>
+#include "safe_bin.h"
+
+
+bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
+{
+
+    QFile file(fileName);
+    if (!file.exists()) {
+        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Файл не найден."));
+        return false;
+    }
+
+    bool res = file.open(QIODevice::ReadOnly);
+
+    if (!res) {
+        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
+        return false;
+    }
+
+    list.clear();
+    struct SAFETY_CACHE_HEADER_V2 header;
+    file.read((char *)&header,sizeof(header));
+
+    if (header.nVersionMajor!=2) {
+        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Неизвестная версия файла."));
+        return false;
+    }
+
+    res=file.seek(header.nSafetyOffset);
+    if (!res) {
+        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
+        return false;
+    }
+
+    for (uint i=0;i<header.nSafetyCnt;i++)
+    {
+        QByteArray ba = file.read(header.nRecordSize);
+        if (ba.size()!=header.nRecordSize) {
+            QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Size of readed data != point data size!"));
+            file.close();
+            return false;
+        }
+        SystemSafeRecord_V2_t safeRecord;
+        std::memcpy(&safeRecord,ba.data(),sizeof(SystemSafeRecord_V2_t));
+
+        //safeRecordV1_t safeRecord;
+        //std::memcpy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
+        //addRawPointToPointList(safeRecord, list);
+    }//for
+
+    file.close();
+    return true;
+}
+
+safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint) {
+    safePoint_t point;
+    point.lat = safeRawPoint.pos.X/10e6;
+    point.lon = safeRawPoint.pos.Y/10e6;
+    point.pntType = safeRawPoint.Type;
+    point.name=QString();
+    point.checked = true;
+    QUuid uuid = QUuid::createUuid();
+    point.idx = uuid.toString().left(6);
+    point.uuid = uuid;
+    point.speed = safeRawPoint.speed;
+    return point;
+}

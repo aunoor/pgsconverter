@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "v1.0.11"
+#define VERSION "v1.0.12"
 
 #define MIME_RAW_POINT_TYPE "application/x-rawsafepointlist"
 
@@ -71,6 +71,7 @@ typedef struct SafePoint {
 Q_DECLARE_METATYPE(safePoint_t)
 
 typedef QList<safePoint_t> SafePointsList;
+
 
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt);
 safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint);
