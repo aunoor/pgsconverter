@@ -67,6 +67,7 @@ private:
     void setChanged(bool ch);
     void updateCount();
     QMenu *createPopupMenu(); //заглушка, что бы не показывалось мену у тулбара
+    void loadSystemSafePoints();
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -4,6 +4,9 @@
 #include <cstring>
 #include "safe_bin.h"
 
+void addSystemRawPointToPointList(SystemSafeRecord_V2_t &safeRawPoint, SafePointsList &list) {
+    list.append(trSystemRawPointToPoint(safeRawPoint));
+}
 
 bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
 {
@@ -47,9 +50,7 @@ bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
         SystemSafeRecord_V2_t safeRecord;
         std::memcpy(&safeRecord,ba.data(),sizeof(SystemSafeRecord_V2_t));
 
-        //safeRecordV1_t safeRecord;
-        //std::memcpy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
-        //addRawPointToPointList(safeRecord, list);
+        addSystemRawPointToPointList(safeRecord, list);
     }//for
 
     file.close();
@@ -58,8 +59,8 @@ bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
 
 safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint) {
     safePoint_t point;
-    point.lat = safeRawPoint.pos.X/10e6;
-    point.lon = safeRawPoint.pos.Y/10e6;
+    point.lat = safeRawPoint.pos.Y*.00001;
+    point.lon = safeRawPoint.pos.X*.00001;
     point.pntType = safeRawPoint.Type;
     point.name=QString();
     point.checked = true;
@@ -69,3 +70,6 @@ safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint) {
     point.speed = safeRawPoint.speed;
     return point;
 }
+
+
+

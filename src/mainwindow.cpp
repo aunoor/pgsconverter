@@ -10,6 +10,7 @@
 #include "ui_mainwindow.h"
 #include "editpointdialog.h"
 #include "aboutdialog.h"
+#include "safe_bin.h"
 
 /*
   Для наших целей должно быть достаточно что разница между N55,723510 и N55,723511 = 0.11 метра разницы,
@@ -84,6 +85,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
+
+
+    loadSystemSafePoints();
+
 }
 
 MainWindow::~MainWindow()
@@ -548,4 +553,11 @@ void MainWindow::updateCount()
 void MainWindow::on_action_remove_twins_triggered()
 {
     pointModel.delete_twins();
+}
+
+void MainWindow::loadSystemSafePoints() {
+    SafePointsList list;
+    bool res=loadSystemSafeRecords("./safety_cache.bin",list);
+    if (!res) return;
+    showPointList(list,false);
 }

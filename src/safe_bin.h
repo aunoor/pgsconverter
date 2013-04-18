@@ -8,7 +8,7 @@ struct TPOINT
 {
    double X, Y;
 };
-//Долгота(X) и широта(Y) (в этом порядке), умноженная на 10e6.
+//Долгота(longitude)(X) и широта(latitude)(Y) (в этом порядке), умноженная на 1.0e5.
 
 #pragma pack(push,1)
 enum
@@ -52,5 +52,6 @@ struct SAFETY_CACHE_HEADER_V2
 
 
 safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint);
+bool loadSystemSafeRecords(QString fileName, SafePointsList &list);
 
 #endif // SAFE_BIN_H
