@@ -71,6 +71,7 @@ private:
     QMenu *createPopupMenu(); //заглушка, что бы не показывалось мену у тулбара
     bool loadSystemSafePoints(QString filePath);
     bool hasDupInList(safePoint_t point);
+    void clearSafeCacheList();
 
 protected:
     void closeEvent(QCloseEvent *event);

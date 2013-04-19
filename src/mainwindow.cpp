@@ -87,6 +87,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
+
+#if 0
+    loadSystemSafePoints("./safety_cache.bin");
+    for (int i=0;i<safe_cache_list.size();i++) {
+        pointModel.appendPoint(safe_cache_list.at(i));
+    }
+    ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
+#endif
+
 }
 
 MainWindow::~MainWindow()
@@ -120,7 +129,6 @@ void MainWindow::on_action_export_fav_triggered()
 
 bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
 {
-
     QFile file(fileName);
     if (!file.exists()) {
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Файл не найден."));
@@ -351,7 +359,10 @@ void MainWindow::on_action_append_from_file_triggered()
         if (selectedFilter.contains("UTF8")) isUTF=true;
         if (!loadCamTxt(fileName, safeList, isUTF)) return;
     }
-    else {if (!loadSafeRecords(fileName, safeList)) return; }
+    else {
+        if (!loadSafeRecords(fileName, safeList)) return;
+        clearSafeCacheList();
+    }//else
     showPointList(safeList, true);
     if (!openedFileName.isEmpty()) setChanged(true);
     else { openedFileName = fileName;
@@ -374,7 +385,10 @@ void MainWindow::on_action_open_file_triggered()
         if (selectedFilter.contains("UTF8")) isUTF=true;
         if (!loadCamTxt(fileName, safeList, isUTF)) return;
     }
-    else {if (!loadSafeRecords(fileName, safeList)) return; }
+    else {
+        if (!loadSafeRecords(fileName, safeList)) return;
+        clearSafeCacheList();
+    }//else
     openedFileName = fileName;
 
     showPointList(safeList, false);
@@ -561,9 +575,13 @@ void MainWindow::on_action_remove_twins_triggered()
     pointModel.delete_twins();
 }
 
-bool MainWindow::loadSystemSafePoints(QString filePath) {
+void MainWindow::clearSafeCacheList() {
     ovscLabel->setText("");
     safe_cache_list.clear();
+}
+
+bool MainWindow::loadSystemSafePoints(QString filePath) {
+    clearSafeCacheList();
     bool res=loadSystemSafeRecords(filePath,safe_cache_list);
     if (!res) return false;
     ovscLabel->setText("sc");
