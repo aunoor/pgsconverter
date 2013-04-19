@@ -52,6 +52,6 @@ struct SAFETY_CACHE_HEADER_V2
 
 
 safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint);
-bool loadSystemSafeRecords(QString fileName, SafePointsList &list);
+bool loadSystemSafeRecords(QString fileName, SafePointsList &list, bool verbose=false);
 
 #endif // SAFE_BIN_H

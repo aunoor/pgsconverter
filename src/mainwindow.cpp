@@ -16,8 +16,8 @@
   Для наших целей должно быть достаточно что разница между N55,723510 и N55,723511 = 0.11 метра разницы,
   а между E37,382360 и E37,382361 = 0,06 метров разницы
 
-  Широта: d0.0001 = 1.1 метра
-  Долгота: d0.002 = 1.2 метров
+  Широта: d0.0001 = 1.1 метра (1метр = 0.00009)
+  Долгота: d0.002 = 1.2 метров (1метр = 0.00166)
   Подсчеты очень грубые и не учитывают реальное растояние в зависимости от широты и долготы
 */
 
@@ -37,11 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ovCounLabel = new QLabel("");
+    ovCountLabel = new QLabel("");
+    ovscLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
-    this->ui->statusbar->addWidget(ovCounLabel);
+    this->ui->statusbar->addWidget(ovCountLabel);
+    this->ui->statusbar->addWidget(ovscLabel);
 
     proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
@@ -85,10 +87,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
-
-
-    loadSystemSafePoints();
-
 }
 
 MainWindow::~MainWindow()
@@ -161,6 +159,8 @@ bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
 void MainWindow::showPointList(SafePointsList &list, bool append) {
     if (!append) this->pointModel.clearModel();
     for (int i=0;i<list.size();i++) {
+        //проверяем на дубликаты точек
+        if (hasDupInList(list.at(i))) continue;
         pointModel.appendPoint(list.at(i));
     }
     ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
@@ -231,6 +231,11 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8)
     }
 
     file.close();
+
+    QFileInfo  fi(fileName);
+    QString sc_fn=fi.absolutePath()+"/safety_cache.bin";
+    loadSystemSafePoints(sc_fn);
+
     return true;
 }
 
@@ -371,6 +376,7 @@ void MainWindow::on_action_open_file_triggered()
     }
     else {if (!loadSafeRecords(fileName, safeList)) return; }
     openedFileName = fileName;
+
     showPointList(safeList, false);
     setChanged(false);
 }
@@ -547,7 +553,7 @@ void MainWindow::on_action_clone_point_triggered()
 
 void MainWindow::updateCount()
 {
-    ovCounLabel->setText(" "+QString::number(pointModel.getPointsCount())+" ");
+    ovCountLabel->setText(" "+QString::number(pointModel.getPointsCount())+" ");
 }
 
 void MainWindow::on_action_remove_twins_triggered()
@@ -555,9 +561,20 @@ void MainWindow::on_action_remove_twins_triggered()
     pointModel.delete_twins();
 }
 
-void MainWindow::loadSystemSafePoints() {
-    SafePointsList list;
-    bool res=loadSystemSafeRecords("./safety_cache.bin",list);
-    if (!res) return;
-    showPointList(list,false);
+bool MainWindow::loadSystemSafePoints(QString filePath) {
+    ovscLabel->setText("");
+    safe_cache_list.clear();
+    bool res=loadSystemSafeRecords(filePath,safe_cache_list);
+    if (!res) return false;
+    ovscLabel->setText("sc");
+    return true;
+}
+
+bool MainWindow::hasDupInList(safePoint_t point) {
+    if (safe_cache_list.isEmpty()) return false;
+
+    for (int i=0;i<safe_cache_list.count();i++) {
+        if (compareCoordsByArea(point,safe_cache_list.at(i),10)) return true;
+    }
+    return false;
 }

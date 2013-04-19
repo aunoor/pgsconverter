@@ -54,9 +54,11 @@ private:
     QString openedFileName;
     PointModel pointModel;
     QCheckBox *odCheckBox;
-    QLabel *ovCounLabel;
+    QLabel *ovCountLabel;
+    QLabel *ovscLabel;
     QSortFilterProxyModel proxyModel;
     QSettings settings;
+    SafePointsList safe_cache_list;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
     bool loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8);
@@ -67,7 +69,8 @@ private:
     void setChanged(bool ch);
     void updateCount();
     QMenu *createPopupMenu(); //заглушка, что бы не показывалось мену у тулбара
-    void loadSystemSafePoints();
+    bool loadSystemSafePoints(QString filePath);
+    bool hasDupInList(safePoint_t point);
 
 protected:
     void closeEvent(QCloseEvent *event);

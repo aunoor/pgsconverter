@@ -72,11 +72,15 @@ Q_DECLARE_METATYPE(safePoint_t)
 
 typedef QList<safePoint_t> SafePointsList;
 
+#define LATSCALE 0.00009 //1 метр широты
+#define LONGSCALE 0.00166 //1 метр долготы
 
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt);
 safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint);
 void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list);
 quint8 txtType2PGType(quint8 txt_type, bool u2o);
 quint8 PGType2txtType(quint8 pg_type);
+
+bool compareCoordsByArea(safePoint_t point_coords, safePoint_t area_center_coords, quint32 area_size);
 
 #endif // GLOBALDEFS_H

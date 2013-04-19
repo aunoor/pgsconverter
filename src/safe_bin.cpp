@@ -8,19 +8,18 @@ void addSystemRawPointToPointList(SystemSafeRecord_V2_t &safeRawPoint, SafePoint
     list.append(trSystemRawPointToPoint(safeRawPoint));
 }
 
-bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
+bool loadSystemSafeRecords(QString fileName, SafePointsList &list, bool verbose)
 {
-
     QFile file(fileName);
     if (!file.exists()) {
-        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Файл не найден."));
+        if (verbose) QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Файл не найден."));
         return false;
     }
 
     bool res = file.open(QIODevice::ReadOnly);
 
     if (!res) {
-        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
+        if (verbose) QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
         return false;
     }
 
@@ -29,13 +28,13 @@ bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
     file.read((char *)&header,sizeof(header));
 
     if (header.nVersionMajor!=2) {
-        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Неизвестная версия файла."));
+        if (verbose) QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Неизвестная версия файла."));
         return false;
     }
 
     res=file.seek(header.nSafetyOffset);
     if (!res) {
-        QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
+        if (verbose) QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Ошибка при открытии файла."));
         return false;
     }
 
@@ -43,7 +42,7 @@ bool loadSystemSafeRecords(QString fileName, SafePointsList &list)
     {
         QByteArray ba = file.read(header.nRecordSize);
         if (ba.size()!=header.nRecordSize) {
-            QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Size of readed data != point data size!"));
+            if (verbose) QMessageBox::critical(0,QObject::tr("Ошибка"), QObject::tr("Size of readed data != point data size!"));
             file.close();
             return false;
         }
