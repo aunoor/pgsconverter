@@ -125,7 +125,10 @@ quint8 PGType2txtType(quint8 pg_type)
  * param area_center_coords Центр квадрата
  * param area_size Размер квадрата в метрах
  */
-bool compareCoordsByArea(safePoint_t point_coords, safePoint_t area_center_coords, quint32 area_size) {
+bool compareCoordsByArea(safePoint_t point_coords, safePoint_t area_center_coords, quint32 area_size, bool typeCheck) {
+
+    if (typeCheck)
+        if (point_coords.pntType != area_center_coords.pntType) return false;
 
     if ((point_coords.lat < area_center_coords.lat-area_size*LATSCALE) ||
         (point_coords.lat > area_center_coords.lat+area_size*LATSCALE)) return false;
