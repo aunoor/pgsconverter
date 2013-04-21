@@ -84,6 +84,10 @@ MainWindow::MainWindow(QWidget *parent) :
     wact->setDefaultWidget(widget);
     ui->toolBar->insertAction(ui->action_about_prog,wact);
 
+    ui->toolBox->setCurrentIndex(0);
+    ui->toolBox->setItemEnabled(1, false);
+
+
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
@@ -591,8 +595,8 @@ bool MainWindow::loadSystemSafePoints(QString filePath) {
 bool MainWindow::hasDupInList(safePoint_t point) {
     if (safe_cache_list.isEmpty()) return false;
 
-    qDebug() << "------------------";
-    qDebug() << "pnt_crds: x: "<<point.lat <<" y: "<<point.lon;
+    //qDebug() << "------------------";
+    //qDebug() << "pnt_crds: x: "<<point.lat <<" y: "<<point.lon;
 
     double intgLatP, intgLonP;
     modf(point.lat,&intgLatP);
@@ -607,7 +611,7 @@ bool MainWindow::hasDupInList(safePoint_t point) {
 //        printf("intgLon: %f, intgLonP: %f\n",intgLon,intgLonP);
 
         if ((intgLat==intgLatP) && (intgLon==intgLonP)) {
-            qDebug() << "safe_cache_list: x: " <<safe_cache_list.at(i).lat << " y: "<<safe_cache_list.at(i).lon;
+            //qDebug() << "safe_cache_list: x: " <<safe_cache_list.at(i).lat << " y: "<<safe_cache_list.at(i).lon;
             //printf("x: %f\n",safe_cache_list.at(i).lat);
         }
 

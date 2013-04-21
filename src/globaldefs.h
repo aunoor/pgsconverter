@@ -81,6 +81,6 @@ void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list);
 quint8 txtType2PGType(quint8 txt_type, bool u2o);
 quint8 PGType2txtType(quint8 pg_type);
 
-bool compareCoordsByArea(safePoint_t point_coords, safePoint_t area_center_coords, quint32 area_size, bool typeCheck=false);
+bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &area_center_coords, quint32 area_size, bool typeCheck=true);
 
 #endif // GLOBALDEFS_H

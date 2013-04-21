@@ -120,12 +120,18 @@ quint8 PGType2txtType(quint8 pg_type)
     return 106;
 }
 
+bool isCameraPointType(safePoint_t &point)
+{
+    if (point.pntType == CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM) return true;
+    return false;
+}
+
 /*
  * param point_coords Координаты, проверяемые на попадание в квадрат
  * param area_center_coords Центр квадрата
  * param area_size Размер квадрата в метрах
  */
-bool compareCoordsByArea(safePoint_t point_coords, safePoint_t area_center_coords, quint32 area_size, bool typeCheck) {
+bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &area_center_coords, quint32 area_size, bool typeCheck) {
 
     if (typeCheck)
         if (point_coords.pntType != area_center_coords.pntType) return false;
