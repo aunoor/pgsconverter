@@ -591,8 +591,27 @@ bool MainWindow::loadSystemSafePoints(QString filePath) {
 bool MainWindow::hasDupInList(safePoint_t point) {
     if (safe_cache_list.isEmpty()) return false;
 
+    qDebug() << "------------------";
+    qDebug() << "pnt_crds: x: "<<point.lat <<" y: "<<point.lon;
+
+    double intgLatP, intgLonP;
+    modf(point.lat,&intgLatP);
+    modf(point.lon,&intgLonP);
+
     for (int i=0;i<safe_cache_list.count();i++) {
-        if (compareCoordsByArea(point,safe_cache_list.at(i),10)) return true;
+        double intgLat, intgLon;
+        modf(safe_cache_list.at(i).lat,&intgLat);
+        modf(safe_cache_list.at(i).lon,&intgLon);
+
+//        printf("intgLat: %f, intgLatP: %f\n",intgLat,intgLatP);
+//        printf("intgLon: %f, intgLonP: %f\n",intgLon,intgLonP);
+
+        if ((intgLat==intgLatP) && (intgLon==intgLonP)) {
+            qDebug() << "safe_cache_list: x: " <<safe_cache_list.at(i).lat << " y: "<<safe_cache_list.at(i).lon;
+            //printf("x: %f\n",safe_cache_list.at(i).lat);
+        }
+
+        if (compareCoordsByArea(point,safe_cache_list.at(i),15)) return true;
     }
     return false;
 }
