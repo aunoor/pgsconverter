@@ -6,6 +6,8 @@
 
 class PointModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 private:
     SafePointsList pointList;
 public:
@@ -39,6 +41,9 @@ public:
     void clonePoint(int row);//помещает копию точки ниже указанной строки
     void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
     void delete_twins(PointModel *point_model); //удаляет дубли из списка
+
+signals:
+    void compareProgress(unsigned int pos, unsigned int overal);
 };
 
 #endif // POINTMODEL_H

@@ -41,8 +41,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ovCountLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
+
+    odCompareProgressBar = new QProgressBar(this);
+
     this->ui->statusbar->addWidget(odCheckBox);
     this->ui->statusbar->addWidget(ovCountLabel);
+    this->ui->statusbar->addWidget(odCompareProgressBar);
+
+    odCompareProgressBar->setMaximum(1);
+    odCompareProgressBar->setMinimum(0);
+    odCompareProgressBar->setValue(0);
+    odCompareProgressBar->setVisible(false);
 
     proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
@@ -105,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
+    connect(&pointModel,SIGNAL(compareProgress(uint,uint)),SLOT(showCompareProgress(uint,uint)));
 
     loadSettings();
 }
@@ -668,4 +678,25 @@ void MainWindow::on_actionConfigure_triggered()
     int res=configDialog.exec();
     if (res) saveSettings();
     else app_settings = tmp_settings;
+}
+
+void MainWindow::showCompareProgress(unsigned int pos, unsigned int overal)
+{
+    qDebug() << "pos=" << pos <<" overal" << overal;
+
+    odCompareProgressBar->setVisible(true);
+    odCompareProgressBar->setMaximum(overal);
+    odCompareProgressBar->setValue(pos);
+
+    ui->statusbar->repaint();
+
+    if (pos==overal) {
+        odCompareProgressBar->setMaximum(1);
+        odCompareProgressBar->setMinimum(0);
+        odCompareProgressBar->setValue(0);
+        odCompareProgressBar->setVisible(false);
+        return;
+    }
+
+
 }

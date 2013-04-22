@@ -57,6 +57,7 @@ private:
     PointModel pointModel;
     QCheckBox *odCheckBox;
     QLabel *ovCountLabel;
+    QProgressBar *odCompareProgressBar;
     QSortFilterProxyModel proxyModel;
     QSortFilterProxyModel sc_proxyModel;
     QSettings settings;
@@ -83,6 +84,9 @@ private:
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *);
+
+public slots:
+    void showCompareProgress(unsigned int pos, unsigned int overal);
 };
 
 #endif // MAINWINDOW_H
