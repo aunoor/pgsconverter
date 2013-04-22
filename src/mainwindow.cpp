@@ -38,15 +38,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ovCountLabel = new QLabel("");
-    ovscLabel = new QLabel("");
     odCheckBox = new QCheckBox(tr("Загружать неизвестные типы точек как прочие опасности"));
     odCheckBox->setCheckState(Qt::Checked);
     this->ui->statusbar->addWidget(odCheckBox);
     this->ui->statusbar->addWidget(ovCountLabel);
-    this->ui->statusbar->addWidget(ovscLabel);
 
     proxyModel.setSortRole(Qt::UserRole);
     proxyModel.setSourceModel(&this->pointModel);
+
+    sc_proxyModel.setSortRole(Qt::UserRole);
+    sc_proxyModel.setSourceModel(&this->sc_pointModel);
 
     this->ui->treeView->setModel(&this->proxyModel);
     this->ui->treeView->sortByColumn(0,Qt::AscendingOrder);
@@ -57,6 +58,18 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView->header()->resizeSection(3,200);
     this->ui->treeView->header()->resizeSection(4,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+
+    this->ui->treeView_sc->setModel(&this->sc_proxyModel);
+    this->ui->treeView_sc->sortByColumn(0,Qt::AscendingOrder);
+
+    this->ui->treeView_sc->header()->resizeSection(0,80);
+    this->ui->treeView_sc->header()->resizeSection(1,50);
+    this->ui->treeView_sc->header()->resizeSection(2,60);
+    this->ui->treeView_sc->header()->resizeSection(3,200);
+    this->ui->treeView_sc->header()->resizeSection(4,200);
+    //this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
 
     listMenu.addAction(this->ui->action_check_all);
     listMenu.addAction(this->ui->action_uncheck_all);
@@ -85,8 +98,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->insertAction(ui->action_about_prog,wact);
 
     ui->toolBox->setCurrentIndex(0);
-    ui->toolBox->setItemEnabled(1, false);
-
+    ui->toolBox->setItemText(0,"");
+    ui->toolBox->setItemText(1,"safety_cache");
+//    ui->toolBox->setItemEnabled(1, false);
 
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
@@ -172,11 +186,20 @@ void MainWindow::showPointList(SafePointsList &list, bool append) {
     if (!append) this->pointModel.clearModel();
     for (int i=0;i<list.size();i++) {
         //проверяем на дубликаты точек
-        if (hasDupInList(list.at(i))) continue;
+//        if (hasDupInList(list.at(i))) continue;
         pointModel.appendPoint(list.at(i));
     }
     ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
 }
+
+void MainWindow::showSCPointList(SafePointsList &list) {
+    this->sc_pointModel.clearModel();
+    for (int i=0;i<list.size();i++) {
+        sc_pointModel.appendPoint(list.at(i));
+    }
+    ui->treeView_sc->setCurrentIndex(sc_pointModel.index(0,0,QModelIndex()));
+}
+
 
 bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8) {
 
@@ -219,9 +242,9 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8)
         SafePoint spoint;
         spoint.idx = params.at(0);//IDX
         bool ok;
-        spoint.lat= params.at(1).toDouble(&ok);//X
+        spoint.lon= params.at(1).toDouble(&ok);//X
         if (!ok) continue;
-        spoint.lon= params.at(2).toDouble(&ok);//Y
+        spoint.lat= params.at(2).toDouble(&ok);//Y
         if (!ok) continue;
         spoint.pntType = txtType2PGType(params.at(3).toInt(&ok), odCheckBox->checkState()==Qt::Checked);
         if (!ok) continue;
@@ -348,38 +371,18 @@ bool MainWindow::storeInSafeDat(QString &fileName){
 
 }
 
-void MainWindow::on_action_append_from_file_triggered()
-{
-    QString openDir=settings.value("appendDir").toString();
-    if (openDir.isEmpty()) openDir=".";
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Добавить точки в список"),openDir,tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)"),&selectedFilter);
-    if (fileName.isEmpty()) return;
-    QFileInfo fileInfo(fileName);
-    settings.setValue("appendDir",fileInfo.absolutePath());
-    SafePointsList safeList;
-    if (QFileInfo(fileName).suffix()=="txt") {
-        bool isUTF=false;
-        if (selectedFilter.contains("UTF8")) isUTF=true;
-        if (!loadCamTxt(fileName, safeList, isUTF)) return;
-    }
-    else {
-        if (!loadSafeRecords(fileName, safeList)) return;
-        clearSafeCacheList();
-    }//else
-    showPointList(safeList, true);
-    if (!openedFileName.isEmpty()) setChanged(true);
-    else { openedFileName = fileName;
-        setChanged(false);
-    }
-}
+void MainWindow::doLoadPoints(bool append) {
 
-void MainWindow::on_action_open_file_triggered()
-{
-    QString openDir=settings.value("openDir").toString();
+    QString openFilter = tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt);;Системный файл с точками (safety_cache.bin)");
+
+    if (append) {
+       openFilter = tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)");
+    }
+
+    QString openDir=settings.value(append?"appendDir":"openDir").toString();
     if (openDir.isEmpty()) openDir=".";
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Открыть список точек"),openDir,tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)"),&selectedFilter);
+    QString fileName = QFileDialog::getOpenFileName(this,append?tr("Добавить точки в список"):tr("Открыть список точек"),openDir, openFilter, &selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
     settings.setValue("openDir",fileInfo.absolutePath());
@@ -389,14 +392,26 @@ void MainWindow::on_action_open_file_triggered()
         if (selectedFilter.contains("UTF8")) isUTF=true;
         if (!loadCamTxt(fileName, safeList, isUTF)) return;
     }
-    else {
+    else if (QFileInfo(fileName).suffix()=="dat"){
         if (!loadSafeRecords(fileName, safeList)) return;
         clearSafeCacheList();
     }//else
-    openedFileName = fileName;
-
-    showPointList(safeList, false);
+    else if (QFileInfo(fileName).baseName()=="safety_cache") {
+        loadSystemSafePoints(fileName);
+        return;
+    }
+    showPointList(safeList, append);
     setChanged(false);
+}
+
+void MainWindow::on_action_append_from_file_triggered()
+{
+    doLoadPoints(true);
+}
+
+void MainWindow::on_action_open_file_triggered()
+{
+    doLoadPoints(false);
 }
 
 void MainWindow::on_action_del_from_list_triggered()
@@ -572,23 +587,32 @@ void MainWindow::on_action_clone_point_triggered()
 void MainWindow::updateCount()
 {
     ovCountLabel->setText(" "+QString::number(pointModel.getPointsCount())+" ");
+    ui->toolBox->setItemText(0,tr("Загруженные точки - ")+QString::number(pointModel.getPointsCount()));
+}
+
+void MainWindow::updateSCCount()
+{
+    ui->toolBox->setItemText(1,"safety_cache - "+QString::number(sc_pointModel.getPointsCount()));
 }
 
 void MainWindow::on_action_remove_twins_triggered()
 {
-    pointModel.delete_twins();
+    pointModel.delete_twins(&sc_pointModel);
 }
 
 void MainWindow::clearSafeCacheList() {
-    ovscLabel->setText("");
     safe_cache_list.clear();
+    sc_pointModel.clearModel();
 }
 
 bool MainWindow::loadSystemSafePoints(QString filePath) {
     clearSafeCacheList();
     bool res=loadSystemSafeRecords(filePath,safe_cache_list);
+    updateSCCount();
     if (!res) return false;
-    ovscLabel->setText("sc");
+    showSCPointList(safe_cache_list);
+    updateSCCount();
+    safe_cache_list.clear();
     return true;
 }
 

@@ -31,14 +31,14 @@ public:
     void setPointChecked(int row, bool checked); //выбирает или не выбирает точку
     int getCheckedCount();//возвращает количество выбранных записей
     safePoint_t getPoint(int row); //возвращает данные точки. Если row>количества точек, все упадет. намеренно!
-    int getPointsCount(); //возвращает количество точек в модели
+    int getPointsCount() const; //возвращает количество точек в модели
     void setPoint(int row, safePoint_t &point); //записываем данные точки
     bool swapRows(int oldRow, int newRow); //меняет записи местами
     bool swapRows(QModelIndex &oldRow, QModelIndex &newRow); //меняет записи местами
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается
     void clonePoint(int row);//помещает копию точки ниже указанной строки
     void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
-    void delete_twins(); //удаляет дубли из списка
+    void delete_twins(PointModel *point_model); //удаляет дубли из списка
 };
 
 #endif // POINTMODEL_H

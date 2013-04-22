@@ -6,8 +6,8 @@ void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
     //преобразуем точку из нашего формата в формат ПГ
     std::memset((void*)rawPnt,0,sizeof(safeRecordV1_t));
 
-    rawPnt->pos_x=qRound(pnt.lat*100000);
-    rawPnt->pos_y=qRound(pnt.lon*100000);
+    rawPnt->pos_y=qRound(pnt.lat*100000);
+    rawPnt->pos_x=qRound(pnt.lon*100000);
 
     rawPnt->type = pnt.pntType;
     rawPnt->speed = pnt.speed;
@@ -26,8 +26,8 @@ void addRawPointToPointList(safeRecordV1_t &safeRawPoint, SafePointsList &list) 
 
 safePoint_t trRawPointToPoint(safeRecordV1_t &safeRawPoint) {
     safePoint_t point;
-    point.lat = safeRawPoint.pos_x*.00001;
-    point.lon = safeRawPoint.pos_y*.00001;
+    point.lat = safeRawPoint.pos_y*.00001;
+    point.lon = safeRawPoint.pos_x*.00001;
     point.pntType = safeRawPoint.type;
     QTextCodec *codec = QTextCodec::codecForName("Windows-1251");
     point.name=codec->toUnicode(safeRawPoint.name,128);

@@ -55,10 +55,11 @@ private:
     PointModel pointModel;
     QCheckBox *odCheckBox;
     QLabel *ovCountLabel;
-    QLabel *ovscLabel;
     QSortFilterProxyModel proxyModel;
+    QSortFilterProxyModel sc_proxyModel;
     QSettings settings;
     SafePointsList safe_cache_list;
+    PointModel sc_pointModel;
     bool loadSafeRecords(QString fileName, SafePointsList &list);
     void showPointList(SafePointsList &list, bool append);
     bool loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8);
@@ -72,7 +73,9 @@ private:
     bool loadSystemSafePoints(QString filePath);
     bool hasDupInList(safePoint_t point);
     void clearSafeCacheList();
-
+    void showSCPointList(SafePointsList &list); //отображает загруженные точки из safety_cache.bin
+    void updateSCCount(); //обновляем заголовок страницы с точками из safety_cache
+    void doLoadPoints(bool append); //функция, открывает диалог для загрузки или добавления точек в список
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *);

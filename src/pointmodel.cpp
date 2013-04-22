@@ -25,7 +25,7 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         if (index.column()==0) return QVariant(index.row()+1);
         else if (index.column()==1) return QVariant();
         else if (index.column()==2) return QVariant(pointList.at(index.row()).speed);
-        else if (index.column()==3) return QString(tr("N %2, E %1")).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true));
+        else if (index.column()==3) return QString(tr("N %1, E %2")).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true));
         else if (index.column()==4) return ((safePoint_t)pointList.at(index.row())).name;
         break;
        case Qt::CheckStateRole:
@@ -304,7 +304,7 @@ safePoint_t PointModel::getPoint(int row)
     return pointList.at(row);
 }
 
-int PointModel::getPointsCount()
+int PointModel::getPointsCount() const
 {
     return pointList.count();
 }
@@ -364,10 +364,25 @@ void PointModel::massCheck(QModelIndexList &list, bool checked)
     }//for
 }
 
-void PointModel::delete_twins()
+void PointModel::delete_twins(PointModel *point_model)
 {
     beginResetModel();
 
+    SafePointsList::iterator curr=pointList.begin();
+    while (curr!=pointList.end()) {
+        (*curr).print();
+        bool res=false;
+        for (int i=0;i<point_model->getPointsCount();i++) {
+            safePoint_t tmp_pnt = point_model->getPoint(i);
+            res=compareCoordsByArea((*curr), tmp_pnt, 15);
+            if (res) break;
+        }//for
+        if (res) curr=pointList.erase(curr);
+        else curr++;
+    }//while
+
+
+#if 0
     QStringList ids;
     for (int i=0;i<pointList.count();i++) {
         for (int i2=i+1;i2<pointList.count();i2++) {
@@ -382,6 +397,6 @@ void PointModel::delete_twins()
             else curr++;
         }//while
     }//for i
-
+#endif
     endResetModel();
 }

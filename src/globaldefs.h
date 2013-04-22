@@ -66,6 +66,9 @@ typedef struct SafePoint {
     bool operator==(const safePoint_t &other) const {
         return (this->lat==other.lat && lon==other.lon);
     }
+    void print() {
+        qDebug() << "name=" << name << " X="<<lon <<" Y="<<lat;
+    }
 }safePoint_t;
 
 Q_DECLARE_METATYPE(safePoint_t)
