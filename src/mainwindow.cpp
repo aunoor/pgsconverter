@@ -604,6 +604,7 @@ void MainWindow::updateSCCount()
 void MainWindow::on_action_remove_twins_triggered()
 {
     pointModel.delete_twins(&sc_pointModel);
+    setChanged(true);
 }
 
 void MainWindow::clearSafeCacheList() {
@@ -682,7 +683,7 @@ void MainWindow::on_actionConfigure_triggered()
 
 void MainWindow::showCompareProgress(unsigned int pos, unsigned int overal)
 {
-    qDebug() << "pos=" << pos <<" overal" << overal;
+//    qDebug() << "pos=" << pos <<" overal" << overal;
 
     odCompareProgressBar->setVisible(true);
     odCompareProgressBar->setMaximum(overal);

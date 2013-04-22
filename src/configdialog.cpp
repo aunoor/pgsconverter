@@ -1,6 +1,6 @@
-#include "src/configdialog.h"
+#include "configdialog.h"
 #include "ui_configdialog.h"
-#include "src/globaldefs.h"
+#include "globaldefs.h"
 
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
