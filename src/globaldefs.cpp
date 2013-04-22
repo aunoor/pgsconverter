@@ -1,6 +1,8 @@
 #include <cstring>
 #include "globaldefs.h"
 
+app_settings_t app_settings;
+
 void pntToRawPnt(safePoint_t &pnt, safeRecordV1_t *rawPnt)
 {
     //преобразуем точку из нашего формата в формат ПГ

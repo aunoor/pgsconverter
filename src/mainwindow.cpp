@@ -11,6 +11,7 @@
 #include "editpointdialog.h"
 #include "aboutdialog.h"
 #include "safe_bin.h"
+#include "configdialog.h"
 
 /*
   Для наших целей должно быть достаточно что разница между N55,723510 и N55,723511 = 0.11 метра разницы,
@@ -100,20 +101,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->setCurrentIndex(0);
     ui->toolBox->setItemText(0,"");
     ui->toolBox->setItemText(1,"safety_cache");
-//    ui->toolBox->setItemEnabled(1, false);
 
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
 
-#if 0
-    loadSystemSafePoints("./safety_cache.bin");
-    for (int i=0;i<safe_cache_list.size();i++) {
-        pointModel.appendPoint(safe_cache_list.at(i));
-    }
-    ui->treeView->setCurrentIndex(pointModel.index(0,0,QModelIndex()));
-#endif
-
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
@@ -132,14 +125,14 @@ void MainWindow::on_action_export_fav_triggered()
         QMessageBox::critical(this,QObject::tr("Ошибка"), tr("Не выбрано ни одной точки для сохранения."));
         return;
     }
-    QString saveDir=settings.value("exportDir").toString();
-    if (saveDir.isEmpty()) saveDir=".";
+    QString saveDir=app_settings.exportDir;
     QDir dir(saveDir);
     saveDir=dir.absoluteFilePath("UserSafety.dat");
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт UserSafety.dat"),saveDir,tr("Файл UserSafety точек ПроГород (UserSafety.dat *.dat)"));
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
-    settings.setValue("exportDir",fileInfo.absolutePath());
+    app_settings.exportDir = fileInfo.absolutePath();
+    saveSettings();
     if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".dat");
     bool res=storeInSafeDat(fileName);
     if (changed) setChanged(!res);
@@ -267,9 +260,11 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8)
 
     file.close();
 
-    QFileInfo  fi(fileName);
-    QString sc_fn=fi.absolutePath()+"/safety_cache.bin";
-    loadSystemSafePoints(sc_fn);
+    if (app_settings.auto_load_sc) {
+        QFileInfo  fi(fileName);
+        QString sc_fn=fi.absolutePath()+"/safety_cache.bin";
+        loadSystemSafePoints(sc_fn);
+    }
 
     return true;
 }
@@ -379,13 +374,13 @@ void MainWindow::doLoadPoints(bool append) {
        openFilter = tr("Файлы с точками [UTF8] (*.txt usersafety.dat *.dat);;Файлы с точками [Windows-1251] (*.txt)");
     }
 
-    QString openDir=settings.value(append?"appendDir":"openDir").toString();
-    if (openDir.isEmpty()) openDir=".";
+    QString openDir = append?app_settings.appendDir:app_settings.openDir;
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName(this,append?tr("Добавить точки в список"):tr("Открыть список точек"),openDir, openFilter, &selectedFilter);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
-    settings.setValue("openDir",fileInfo.absolutePath());
+    (append?app_settings.appendDir:app_settings.openDir)  = fileInfo.absolutePath();
+    saveSettings();
     SafePointsList safeList;
     if (QFileInfo(fileName).suffix()=="txt") {
         bool isUTF=false;
@@ -442,12 +437,13 @@ void MainWindow::on_action_save_as_triggered()
         return;
     }
     QString selFilt;
-    QString saveDir=settings.value("saveDir").toString();
+    QString saveDir=app_settings.saveDir;
     if (saveDir.isEmpty()) saveDir=".";
     QString fileName = QFileDialog::getSaveFileName(this,tr("Экспорт выбранных точек"),saveDir,tr("Файл избранных точек ПроГород (usersafety.dat *.dat);; Файл точек SpeedCam (*.txt)"),&selFilt);
     if (fileName.isEmpty()) return;
     QFileInfo fileInfo(fileName);
-    settings.setValue("saveDir",fileInfo.absolutePath());
+    app_settings.saveDir = fileInfo.absolutePath();
+    saveSettings();
     bool res;
     if (selFilt.contains("txt")) {
         if (QFileInfo(fileName).suffix().isEmpty()) fileName.append(".txt");
@@ -642,4 +638,34 @@ bool MainWindow::hasDupInList(safePoint_t point) {
         if (compareCoordsByArea(point,safe_cache_list.at(i),15)) return true;
     }
     return false;
+}
+
+void MainWindow::loadSettings()
+{
+    app_settings.saveDir = settings.value("saveDir",QVariant(QString("."))).toString();
+    app_settings.exportDir = settings.value("exportDir",QVariant(QString("."))).toString();
+    app_settings.openDir = settings.value("openDir",QVariant(QString("."))).toString();
+    app_settings.appendDir = settings.value("appendDir",QVariant(QString("."))).toString();
+    app_settings.box_size = settings.value("boxSize",10).toInt();
+    app_settings.auto_load_sc = settings.value("autoLoadSC",true).toBool();
+}
+
+void MainWindow::saveSettings()
+{
+    settings.setValue("openDir",app_settings.openDir);
+    settings.setValue("saveDir",app_settings.saveDir);
+    settings.setValue("exportDir",app_settings.exportDir);
+    settings.setValue("appendDir",app_settings.appendDir);
+    settings.setValue("boxSize",app_settings.box_size);
+    settings.setValue("autoLoadSC",app_settings.auto_load_sc);
+}
+
+void MainWindow::on_actionConfigure_triggered()
+{
+    app_settings_t tmp_settings = app_settings;
+
+    ConfigDialog configDialog(this);
+    int res=configDialog.exec();
+    if (res) saveSettings();
+    else app_settings = tmp_settings;
 }

@@ -45,6 +45,8 @@ private slots:
 
     void on_action_remove_twins_triggered();
 
+    void on_actionConfigure_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMenu listMenu;
@@ -76,6 +78,8 @@ private:
     void showSCPointList(SafePointsList &list); //отображает загруженные точки из safety_cache.bin
     void updateSCCount(); //обновляем заголовок страницы с точками из safety_cache
     void doLoadPoints(bool append); //функция, открывает диалог для загрузки или добавления точек в список
+    void loadSettings(); //загрузка переменных конфига
+    void saveSettings(); //запись переменных конфига
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *);

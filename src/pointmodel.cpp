@@ -374,29 +374,12 @@ void PointModel::delete_twins(PointModel *point_model)
         bool res=false;
         for (int i=0;i<point_model->getPointsCount();i++) {
             safePoint_t tmp_pnt = point_model->getPoint(i);
-            res=compareCoordsByArea((*curr), tmp_pnt, 15);
+            res=compareCoordsByArea((*curr), tmp_pnt, app_settings.box_size);
             if (res) break;
         }//for
         if (res) curr=pointList.erase(curr);
         else curr++;
     }//while
 
-
-#if 0
-    QStringList ids;
-    for (int i=0;i<pointList.count();i++) {
-        for (int i2=i+1;i2<pointList.count();i2++) {
-            if (pointList.at(i)==pointList.at(i2)) ids.append(pointList.at(i2).idx);
-        }//for i2
-    }//for i
-
-    for (int i=0;i<ids.count();i++) {
-        SafePointsList::iterator curr=pointList.begin();
-        while (curr!=pointList.end()) {
-            if ((*curr).idx==ids.at(i)) curr=pointList.erase(curr);
-            else curr++;
-        }//while
-    }//for i
-#endif
     endResetModel();
 }

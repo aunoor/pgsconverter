@@ -30,6 +30,17 @@ enum SPEED_CAM_TYPES {
     SPEED_CAM_SPEEDCAM_TWIN = 4// - измеряющая скорость на участке
 };
 
+typedef struct APP_SETTINGS {
+    QString openDir; //каталог, привязанный к диалогу загрузки файлов
+    QString appendDir; //каталог, привязанный к диалогу добавления файлов
+    QString saveDir; //каталог, привязанный к диалогу записи файлов
+    QString exportDir; //каталог, привязанный к диалогу экспорта файлов
+    unsigned int box_size; //размер квадрата, в котором сравниваются точки на совпадение
+    bool auto_load_sc; //автоматически загружать s_c.bin при загрузке mapcam.txt
+}app_settings_t;
+
+extern app_settings_t app_settings;
+
 #pragma pack(push,1)
 struct CFG_HEADER
 {

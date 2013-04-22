@@ -16,16 +16,19 @@ SOURCES += src/main.cpp \
     src/aboutdialog.cpp \
     src/pointmodel.cpp \
     src/globaldefs.cpp \
-    src/safe_bin.cpp
+    src/safe_bin.cpp \
+    src/configdialog.cpp
 HEADERS += src/mainwindow.h \
     src/editpointdialog.h \
     src/aboutdialog.h \
     src/pointmodel.h \
     src/globaldefs.h \
-    src/safe_bin.h
+    src/safe_bin.h \
+    src/configdialog.h
 FORMS += ui/mainwindow.ui \
     ui/editpointdialog.ui \
-    ui/aboutdialog.ui
+    ui/aboutdialog.ui \
+    ui/configdialog.ui
 INCLUDEPATH += src
 UI_DIR = tmp/.ui
 MOC_DIR = tmp/.moc
