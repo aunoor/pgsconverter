@@ -370,16 +370,17 @@ void PointModel::delete_twins(PointModel *point_model)
 
     unsigned int ovrl = pointList.count();
     unsigned int pos=0;
+    bool res;
 
     emit compareProgress(pos,ovrl);
 
     SafePointsList::iterator curr=pointList.begin();
     while (curr!=pointList.end()) {
         emit compareProgress(pos,ovrl);
-        bool res=false;
+        res=false;
         for (int i=0;i<point_model->getPointsCount();i++) {
             safePoint_t tmp_pnt = point_model->getPoint(i);
-            res=compareCoordsByArea((*curr), tmp_pnt, app_settings.box_size);
+            res=compareCoordsByArea((*curr), tmp_pnt, app_settings.box_size, true);
             if (res) break;
         }//for
         pos++;

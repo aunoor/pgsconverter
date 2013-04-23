@@ -132,17 +132,45 @@ bool isCameraPointType(safePoint_t &point)
  * param point_coords Координаты, проверяемые на попадание в квадрат
  * param area_center_coords Центр квадрата
  * param area_size Размер квадрата в метрах
+ * return false - если точки разного типа или не сравниваемая точка на попадает в область или true если точка того же типа находиться рядом со сравниваемой точкой
  */
 bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &area_center_coords, quint32 area_size, bool typeCheck) {
 
     if (typeCheck)
         if (point_coords.pntType != area_center_coords.pntType) return false;
 
+//    qDebug() << "lat scale = " << area_size*LATSCALE;
+//    qDebug() << "lon scale = " << area_size*LONGSCALE;
+/*
     if ((point_coords.lat < area_center_coords.lat-area_size*LATSCALE) ||
         (point_coords.lat > area_center_coords.lat+area_size*LATSCALE)) return false;
 
     if ((point_coords.lon < area_center_coords.lon-area_size*LONGSCALE) ||
         (point_coords.lon > area_center_coords.lon+area_size*LONGSCALE)) return false;
+*/
+    double d = distanceBeetweenPoints(point_coords, area_center_coords);
+
+    if (d>area_size) return false;
+
+    qDebug() << "distance=" << d;
+
+    qDebug() << "point:";
+    point_coords.print();
+
+    qDebug() << "sc_point:";
+    area_center_coords.print();
 
     return true;
+}
+
+double distanceBeetweenPoints(const safePoint_t &point_coords, const safePoint_t &area_center_coords) {
+
+    double lat1 = point_coords.lat;
+    double lat2 = area_center_coords.lat;
+
+    double lon1 = point_coords.lon;
+    double lon2 = area_center_coords.lon;
+
+    double d=2*asin(sqrt(pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
+    return d * 6371210;
 }

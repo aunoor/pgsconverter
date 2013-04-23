@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "v1.0.12.3"
+#define VERSION "v1.0.12.4"
 
 #define MIME_RAW_POINT_TYPE "application/x-rawsafepointlist"
 
@@ -77,8 +77,10 @@ typedef struct SafePoint {
     bool operator==(const safePoint_t &other) const {
         return (this->lat==other.lat && lon==other.lon);
     }
-    void print() {
-        qDebug() << "name=" << name << " X="<<lon <<" Y="<<lat;
+    void print() const {
+        qDebug() << "name=" << name <<
+                    QString("X %1, Y %2").arg(QString::number(lat,'g',8).leftJustified(8,'0',true)).arg(QString::number(lon,'g',8).leftJustified(8,'0',true))
+                    << " type="<<pntType;
     }
 }safePoint_t;
 
@@ -96,5 +98,7 @@ quint8 txtType2PGType(quint8 txt_type, bool u2o);
 quint8 PGType2txtType(quint8 pg_type);
 
 bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &area_center_coords, quint32 area_size, bool typeCheck=true);
+
+double distanceBeetweenPoints(const safePoint_t &point_coords, const safePoint_t &area_center_coords);
 
 #endif // GLOBALDEFS_H

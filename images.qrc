@@ -12,6 +12,8 @@
         <file>icons/save_as_pg.png</file>
         <file>icons/help.png</file>
         <file>icons/map_edit.png</file>
+        <file>icons/config-icon.png</file>
+        <file>icons/duplicate-icon.png</file>
         <file>icons/pg_icons/animals.png</file>
         <file>icons/pg_icons/att.png</file>
         <file>icons/pg_icons/camera.png</file>

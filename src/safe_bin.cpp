@@ -60,6 +60,9 @@ safePoint_t trSystemRawPointToPoint(SystemSafeRecord_V2_t &safeRawPoint) {
     safePoint_t point;
     point.lat = safeRawPoint.pos.Y*.00001;
     point.lon = safeRawPoint.pos.X*.00001;
+
+//    qDebug() <<  point.lat;
+
     point.pntType = safeRawPoint.Type;
     point.name=QString();
     point.checked = true;
