@@ -113,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
     connect(&pointModel,SIGNAL(rowsInserted(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
     connect(&pointModel,SIGNAL(rowsRemoved(const QModelIndex &, int, int)), SLOT(pointModel_rowChanged_slot(const QModelIndex &,int,int)));
-    connect(&pointModel,SIGNAL(compareProgress(uint,uint)),SLOT(showCompareProgress(uint,uint)));
+    connect(&pointModel,SIGNAL(compareProgress(uint,uint)),SLOT(showCompareProgress(uint,uint)), Qt::DirectConnection);
 
     loadSettings();
 }
@@ -661,7 +661,10 @@ void MainWindow::showCompareProgress(unsigned int pos, unsigned int overal)
     odCompareProgressBar->setMaximum(overal);
     odCompareProgressBar->setValue(pos);
 
+    odCompareProgressBar->repaint();
     ui->statusbar->repaint();
+    this->repaint();
+    qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 
     if (pos==overal) {
         odCompareProgressBar->setMaximum(1);

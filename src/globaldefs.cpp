@@ -150,27 +150,50 @@ bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &are
 */
     double d = distanceBeetweenPoints(point_coords, area_center_coords);
 
+
+    //if (d<100)
+    //qDebug() << QString::number(area_center_coords.lat).left(5);
+    //if (QString::number(area_center_coords.lat,'g',8).left(8) == "55.70117")
+     //       qDebug() << "distance=" << d;
+
     if (d>area_size) return false;
-
-    qDebug() << "distance=" << d;
-
+#if 1
     qDebug() << "point:";
     point_coords.print();
 
     qDebug() << "sc_point:";
     area_center_coords.print();
 
+    qDebug() << "distance=" << d;
+#endif
+//7603, 7540
+//55,70109, 37,60762 - user
+//55,70117, 37,60776 - sc
+
+//7113 - камера контроля полосы
     return true;
 }
 
 double distanceBeetweenPoints(const safePoint_t &point_coords, const safePoint_t &area_center_coords) {
 
-    double lat1 = point_coords.lat;
-    double lat2 = area_center_coords.lat;
+    double lat1 = point_coords.lat * (M_PI/180);
+    double lat2 = area_center_coords.lat * (M_PI/180);
 
-    double lon1 = point_coords.lon;
-    double lon2 = area_center_coords.lon;
+    double lon1 = point_coords.lon * (M_PI/180);
+    double lon2 = area_center_coords.lon * (M_PI/180);
 
     double d=2*asin(sqrt(pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
-    return d * 6371210;
+    //double d = acos(sin(lat1)*sin(lat2)+cos(lat1)*cos(lat2)*cos(lon1-lon2));
+    d *= 6372.795 *1000;
+    return d;
+
+/*
+cos(d) = sin(φА)·sin(φB) + cos(φА)·cos(φB)·cos(λА − λB),
+
+где φА и φB — широты, λА, λB — долготы данных пунктов, d — расстояние между пунктами, измеряемое в радианах длиной дуги большого круга земного шара.
+Расстояние между пунктами, измеряемое в километрах, определяется по формуле:
+
+L = d·R,
+  */
+
 }
