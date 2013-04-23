@@ -613,6 +613,7 @@ void MainWindow::clearSafeCacheList() {
 }
 
 bool MainWindow::loadSystemSafePoints(QString filePath) {
+    if (sc_pointModel.getPointsCount()) return true; //не загружаем если уже загружено
     clearSafeCacheList();
     bool res=loadSystemSafeRecords(filePath,safe_cache_list);
     updateSCCount();
