@@ -369,8 +369,6 @@ void PointModel::massCheck(QModelIndexList &list, bool checked)
 
 void PointModel::delete_twins(PointModel *point_model)
 {
-    beginResetModel();
-
     unsigned int ovrl = pointList.count();
     unsigned int pos=0;
     bool res;
