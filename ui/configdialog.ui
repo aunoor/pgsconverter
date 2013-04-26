@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
+    <width>456</width>
     <height>203</height>
    </rect>
   </property>
@@ -22,12 +22,31 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Размер площади для сравнения: </string>
+           <string>Размер площади для сравнения c ПГ: </string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox_BoxSize">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_SC_BoxSize">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximum">
            <number>999</number>
           </property>
@@ -46,12 +65,66 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Размер площади для сравнения похожих точек: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_Int_BoxSize">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>999</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>м.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_scByAuto">
         <property name="whatsThis">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Загружать системные точки из safety_cache.bin, если он найден рядом с mapcam.txt&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Загружать safety_cache.bin автоматически.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_UnkAsOthers">
+        <property name="text">
+         <string>Загружать неизвестные типы точек как прочие опасности</string>
         </property>
        </widget>
       </item>
@@ -84,8 +157,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>spinBox_BoxSize</tabstop>
-  <tabstop>checkBox</tabstop>
+  <tabstop>spinBox_SC_BoxSize</tabstop>
+  <tabstop>checkBox_scByAuto</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

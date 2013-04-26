@@ -48,6 +48,8 @@ private slots:
 
     void on_actionConfigure_triggered();
 
+    void on_action_remove_internal_twins_triggered();
+
 private:
     Ui::MainWindow *ui;
     QMenu listMenu;

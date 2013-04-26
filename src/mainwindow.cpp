@@ -44,8 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     odCompareProgressBar = new QProgressBar(this);
 
-    this->ui->statusbar->addWidget(odCheckBox);
-    this->ui->statusbar->addWidget(ovCountLabel);
+//    this->ui->statusbar->addWidget(ovCountLabel);
     this->ui->statusbar->addWidget(odCompareProgressBar);
 
     odCompareProgressBar->setMaximum(1);
@@ -248,7 +247,7 @@ bool MainWindow::loadCamTxt(QString fileName, SafePointsList &list, bool isUTF8)
         if (!ok) continue;
         spoint.lat= params.at(2).toDouble(&ok);//Y
         if (!ok) continue;
-        spoint.pntType = txtType2PGType(params.at(3).toInt(&ok), odCheckBox->checkState()==Qt::Checked);
+        spoint.pntType = txtType2PGType(params.at(3).toInt(&ok), app_settings.unk_as_others);
         if (!ok) continue;
         spoint.speed = params.at(4).toInt(&ok);
         if (!ok) continue;
@@ -607,7 +606,7 @@ void MainWindow::updateSCCount()
 
 void MainWindow::on_action_remove_twins_triggered()
 {
-    pointModel.delete_twins(&sc_pointModel);
+    pointModel.delete_sc_twins(&sc_pointModel);
     setChanged(true);
 }
 
@@ -634,8 +633,10 @@ void MainWindow::loadSettings()
     app_settings.exportDir = settings.value("exportDir",QVariant(QString("."))).toString();
     app_settings.openDir = settings.value("openDir",QVariant(QString("."))).toString();
     app_settings.appendDir = settings.value("appendDir",QVariant(QString("."))).toString();
-    app_settings.box_size = settings.value("boxSize",10).toInt();
+    app_settings.sc_box_size = settings.value("boxSize",10).toInt();
+    app_settings.int_box_size = settings.value("intBoxSize",10).toInt();
     app_settings.auto_load_sc = settings.value("autoLoadSC",true).toBool();
+    app_settings.unk_as_others = settings.value("unkAsOthers",true).toBool();
 }
 
 void MainWindow::saveSettings()
@@ -644,8 +645,10 @@ void MainWindow::saveSettings()
     settings.setValue("saveDir",app_settings.saveDir);
     settings.setValue("exportDir",app_settings.exportDir);
     settings.setValue("appendDir",app_settings.appendDir);
-    settings.setValue("boxSize",app_settings.box_size);
+    settings.setValue("boxSize",app_settings.sc_box_size);
+    settings.setValue("intBoxSize",app_settings.int_box_size);
     settings.setValue("autoLoadSC",app_settings.auto_load_sc);
+    settings.setValue("unkAsOthers",app_settings.unk_as_others);
 }
 
 void MainWindow::on_actionConfigure_triggered()
@@ -680,4 +683,9 @@ void MainWindow::showCompareProgress(unsigned int pos, unsigned int overal)
     }
 
 
+}
+
+void MainWindow::on_action_remove_internal_twins_triggered()
+{
+    pointModel.delete_internal_twins();
 }

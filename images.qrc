@@ -29,6 +29,7 @@
         <file>icons/pg_icons/90.png</file>
         <file>icons/pg_icons/100.png</file>
         <file>icons/pg_icons/110.png</file>
+        <file>icons/clone_pnt.png</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

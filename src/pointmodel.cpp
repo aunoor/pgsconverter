@@ -10,7 +10,7 @@ PointModel::PointModel()
 
 int PointModel::columnCount(const QModelIndex & parent) const
 {
-    return 5; //N,тип,Ограничение,Координаты,Наименование
+    return 4; //N,тип,Ограничение,Координаты
 }
 
 QVariant PointModel::data(const QModelIndex & index, int role) const
@@ -26,7 +26,7 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
         else if (index.column()==1) return QVariant();
         else if (index.column()==2) return QVariant(pointList.at(index.row()).speed);
         else if (index.column()==3) return QString(tr("N %1, E %2")).arg(QString::number(pointList.at(index.row()).lat,'g',8).leftJustified(8,'0',true)).arg(QString::number(pointList.at(index.row()).lon,'g',8).leftJustified(8,'0',true));
-        else if (index.column()==4) return ((safePoint_t)pointList.at(index.row())).name;
+        //else if (index.column()==4) return ((safePoint_t)pointList.at(index.row())).name;
         break;
        case Qt::CheckStateRole:
         if (index.column()==0) return ((safePoint_t)pointList.at(index.row())).checked?Qt::Checked:Qt::Unchecked;
@@ -367,7 +367,7 @@ void PointModel::massCheck(QModelIndexList &list, bool checked)
     }//for
 }
 
-void PointModel::delete_twins(PointModel *point_model)
+void PointModel::delete_sc_twins(PointModel *point_model)
 {
     unsigned int ovrl = pointList.count();
     unsigned int pos=0;
@@ -381,7 +381,7 @@ void PointModel::delete_twins(PointModel *point_model)
         res=false;
         for (int i=0;i<point_model->getPointsCount();i++) {
             safePoint_t tmp_pnt = point_model->getPoint(i);
-            res=compareCoordsByArea((*curr), tmp_pnt, app_settings.box_size, true);
+            res=compareCoordsByArea((*curr), tmp_pnt, app_settings.sc_box_size, true);
             if (res) break;
         }//for
         pos++;
@@ -390,6 +390,30 @@ void PointModel::delete_twins(PointModel *point_model)
     }//while
 
     emit compareProgress(pos,pos);
+
+    endResetModel();
+}
+
+
+void PointModel::delete_internal_twins()
+{
+    beginResetModel();
+
+    QStringList ids;
+    for (int i=0;i<pointList.count();i++) {
+        for (int i2=i+1;i2<pointList.count();i2++) {
+            bool res=compareCoordsByArea(pointList.at(i), pointList.at(i2), app_settings.int_box_size, true);
+            if (res) ids.append(pointList.at(i2).idx);
+        }//for i2
+    }//for i
+
+    for (int i=0;i<ids.count();i++) {
+        SafePointsList::iterator curr=pointList.begin();
+        while (curr!=pointList.end()) {
+            if ((*curr).idx==ids.at(i)) curr=pointList.erase(curr);
+            else curr++;
+        }//while
+    }//for i
 
     endResetModel();
 }

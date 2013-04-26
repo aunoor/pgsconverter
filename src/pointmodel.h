@@ -40,7 +40,8 @@ public:
     bool setPointType(int row, uint type);//устанавливает тип точки (дом/офис), если на другой точке у же стоит такой тип, то он очищается
     void clonePoint(int row);//помещает копию точки ниже указанной строки
     void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
-    void delete_twins(PointModel *point_model); //удаляет дубли из списка
+    void delete_sc_twins(PointModel *point_model); //удаляет дубли из списка, сравнивая с safety_cache.bin
+    void delete_internal_twins(); //удаляет дубли из внутреннего списка
 
 signals:
     void compareProgress(unsigned int pos, unsigned int overal);

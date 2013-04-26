@@ -32,8 +32,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>96</width>
-         <height>77</height>
+         <width>702</width>
+         <height>316</height>
         </rect>
        </property>
        <attribute name="label">
@@ -148,12 +148,11 @@
    </attribute>
    <addaction name="action_open_file"/>
    <addaction name="action_append_from_file"/>
-   <addaction name="action_save"/>
-   <addaction name="action_save_as"/>
    <addaction name="action_save_gpx"/>
    <addaction name="action_export_fav"/>
    <addaction name="action_remove_twins"/>
    <addaction name="actionConfigure"/>
+   <addaction name="action_remove_internal_twins"/>
    <addaction name="action_about_prog"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -176,6 +175,7 @@
     <addaction name="action_append_from_file"/>
     <addaction name="action_save"/>
     <addaction name="action_save_as"/>
+    <addaction name="action_export_fav"/>
     <addaction name="action_exit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
@@ -185,8 +185,17 @@
     <addaction name="action_about_prog"/>
     <addaction name="action_about_Qt"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Инструменты</string>
+    </property>
+    <addaction name="action_remove_twins"/>
+    <addaction name="action_clone_point"/>
+    <addaction name="actionConfigure"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <action name="action_export_fav">
    <property name="icon">
@@ -319,6 +328,10 @@
    </property>
   </action>
   <action name="action_clone_point">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/gui/icons/clone_pnt.png</normaloff>:/gui/icons/clone_pnt.png</iconset>
+   </property>
    <property name="text">
     <string>Клонировать точку</string>
    </property>
@@ -329,7 +342,10 @@
      <normaloff>:/gui/icons/duplicate-icon.png</normaloff>:/gui/icons/duplicate-icon.png</iconset>
    </property>
    <property name="text">
-    <string>Удалить дубли</string>
+    <string>Удалить дубли с ПГ</string>
+   </property>
+   <property name="toolTip">
+    <string>Удаляет точки, похожие на точки из ПГ</string>
    </property>
   </action>
   <action name="actionConfigure">
@@ -338,7 +354,18 @@
      <normaloff>:/gui/icons/config-icon.png</normaloff>:/gui/icons/config-icon.png</iconset>
    </property>
    <property name="text">
-    <string>Configure</string>
+    <string>Настройки</string>
+   </property>
+   <property name="toolTip">
+    <string>Настройки</string>
+   </property>
+  </action>
+  <action name="action_remove_internal_twins">
+   <property name="text">
+    <string>Удалить дубли</string>
+   </property>
+   <property name="toolTip">
+    <string>Удаляет похожие точки</string>
    </property>
   </action>
  </widget>

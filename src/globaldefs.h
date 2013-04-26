@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "v1.0.12.4"
+#define VERSION "v1.0.12.5"
 #define MIME_RAW_POINT_TYPE "application/x-rawsafepointlist"
 
 enum CFG_USER_SAFETY_INFO
@@ -36,8 +36,10 @@ typedef struct APP_SETTINGS {
     QString appendDir; //каталог, привязанный к диалогу добавления файлов
     QString saveDir; //каталог, привязанный к диалогу записи файлов
     QString exportDir; //каталог, привязанный к диалогу экспорта файлов
-    unsigned int box_size; //размер квадрата, в котором сравниваются точки на совпадение
+    unsigned int sc_box_size; //размер квадрата, в котором сравниваются точки на совпадение с точками из ПГ
+    unsigned int int_box_size; //размер квадрата, в котором сравниваются точки на совпадение
     bool auto_load_sc; //автоматически загружать s_c.bin при загрузке mapcam.txt
+    bool unk_as_others; //Загружать неизвестные типы точек как прочие опасности
 }app_settings_t;
 
 extern app_settings_t app_settings;
