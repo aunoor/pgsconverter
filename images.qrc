@@ -30,6 +30,12 @@
         <file>icons/pg_icons/100.png</file>
         <file>icons/pg_icons/110.png</file>
         <file>icons/clone_pnt.png</file>
+        <file>icons/duplicate_pg.png</file>
+        <file>icons/twins.png</file>
+        <file>icons/Users-Police-icon.png</file>
+        <file>icons/yel_triag.png</file>
+        <file>icons/Users-Police-icon_small.png</file>
+        <file>icons/yel_triag.ico</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

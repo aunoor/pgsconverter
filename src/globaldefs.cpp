@@ -158,7 +158,7 @@ bool compareCoordsByArea(const safePoint_t &point_coords, const safePoint_t &are
      //       qDebug() << "distance=" << d;
 
     if (d>area_size) return false;
-#if 1
+#if 0
     qDebug() << "point:";
     point_coords.print();
 

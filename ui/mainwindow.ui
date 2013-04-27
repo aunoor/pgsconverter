@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>712</width>
+    <width>456</width>
     <height>472</height>
    </rect>
   </property>
@@ -15,7 +15,13 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../images.qrc">
-    <normaloff>:/gui/icons/map_edit.png</normaloff>:/gui/icons/map_edit.png</iconset>
+    <normaloff>:/gui/icons/link_cam.ico</normaloff>:/gui/icons/link_cam.ico</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>64</width>
+    <height>64</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -32,8 +38,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>702</width>
-         <height>316</height>
+         <width>96</width>
+         <height>66</height>
         </rect>
        </property>
        <attribute name="label">
@@ -75,8 +81,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>702</width>
-         <height>316</height>
+         <width>446</width>
+         <height>326</height>
         </rect>
        </property>
        <attribute name="label">
@@ -150,9 +156,9 @@
    <addaction name="action_append_from_file"/>
    <addaction name="action_save_gpx"/>
    <addaction name="action_export_fav"/>
+   <addaction name="action_remove_internal_twins"/>
    <addaction name="action_remove_twins"/>
    <addaction name="actionConfigure"/>
-   <addaction name="action_remove_internal_twins"/>
    <addaction name="action_about_prog"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -163,8 +169,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>712</width>
-     <height>22</height>
+     <width>456</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -339,13 +345,13 @@
   <action name="action_remove_twins">
    <property name="icon">
     <iconset resource="../images.qrc">
-     <normaloff>:/gui/icons/duplicate-icon.png</normaloff>:/gui/icons/duplicate-icon.png</iconset>
+     <normaloff>:/gui/icons/duplicate_pg.png</normaloff>:/gui/icons/duplicate_pg.png</iconset>
    </property>
    <property name="text">
     <string>Удалить дубли с ПГ</string>
    </property>
    <property name="toolTip">
-    <string>Удаляет точки, похожие на точки из ПГ</string>
+    <string>Удалить точки, похожие на точки из ПГ</string>
    </property>
   </action>
   <action name="actionConfigure">
@@ -361,11 +367,15 @@
    </property>
   </action>
   <action name="action_remove_internal_twins">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/gui/icons/twins.png</normaloff>:/gui/icons/twins.png</iconset>
+   </property>
    <property name="text">
     <string>Удалить дубли</string>
    </property>
    <property name="toolTip">
-    <string>Удаляет похожие точки</string>
+    <string>Удалить похожие точки</string>
    </property>
   </action>
  </widget>

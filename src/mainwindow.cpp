@@ -62,10 +62,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView->sortByColumn(0,Qt::AscendingOrder);
 
     this->ui->treeView->header()->resizeSection(0,80);
-    this->ui->treeView->header()->resizeSection(1,50);
-    this->ui->treeView->header()->resizeSection(2,60);
-    this->ui->treeView->header()->resizeSection(3,200);
-    this->ui->treeView->header()->resizeSection(4,200);
+    this->ui->treeView->header()->resizeSection(1,60);
+    this->ui->treeView->header()->resizeSection(2,90);
+    //this->ui->treeView->header()->resizeSection(3,200);
+    this->ui->treeView->header()->resizeSection(3,100);
+    //this->ui->treeView->header()->resizeSection(4,200);
     this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
 
@@ -88,7 +89,9 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
-    this->setWindowIcon(QIcon(":/gui/icons/map_edit.png"));
+    //this->setWindowIcon(QIcon(":/gui/icons/link_cam.ico"));
+    this->setWindowIcon(QIcon(":/gui/icons/111.ico"));
+    //this->setWindowIcon(QIcon(":/gui/icons/ww.png"));
     changed=false;
 
     ui->treeView->installEventFilter(this);
@@ -106,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBar->insertAction(ui->action_about_prog,wact);
 
     ui->toolBox->setCurrentIndex(0);
-    ui->toolBox->setItemText(0,"");
+    ui->toolBox->setItemText(0,tr("Загруженные точки"));
     ui->toolBox->setItemText(1,"safety_cache");
 
     connect(&pointModel,SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(pointModel_dataChanged_slot(const QModelIndex &, const QModelIndex &)));
