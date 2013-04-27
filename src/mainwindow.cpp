@@ -89,9 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
-    //this->setWindowIcon(QIcon(":/gui/icons/link_cam.ico"));
-    this->setWindowIcon(QIcon(":/gui/icons/111.ico"));
-    //this->setWindowIcon(QIcon(":/gui/icons/ww.png"));
+    this->setWindowIcon(QIcon(":/gui/icons/yel_triag.ico"));
     changed=false;
 
     ui->treeView->installEventFilter(this);
