@@ -47,8 +47,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>446</width>
-         <height>326</height>
+         <width>98</width>
+         <height>80</height>
         </rect>
        </property>
        <attribute name="label">
@@ -228,8 +228,8 @@
     <addaction name="actionConfigure"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_2"/>
    <addaction name="menu_3"/>
+   <addaction name="menu_2"/>
   </widget>
   <action name="action_export_fav">
    <property name="icon">
@@ -262,6 +262,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
    </property>
   </action>
   <action name="action_check_all">
@@ -331,6 +334,9 @@
    <property name="text">
     <string>О Qt...</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
+   </property>
   </action>
   <action name="action_save">
    <property name="icon">
@@ -390,8 +396,17 @@
    <property name="text">
     <string>Настройки</string>
    </property>
+   <property name="iconText">
+    <string>Preferences...</string>
+   </property>
    <property name="toolTip">
     <string>Настройки</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
   <action name="action_remove_internal_twins">

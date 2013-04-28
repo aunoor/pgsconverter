@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView_sc->header()->resizeSection(4,200);
     //this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-#ifdef Q_OS_MAC
-    this->ui->actionConfigure->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_Comma));
+#ifdef Q_OS_MACX
+    this->setWindowIcon(QIcon(":/gui/icons/yel_triag.png"));
 #endif
 
     listMenu.addAction(this->ui->action_check_all);
@@ -93,8 +93,6 @@ MainWindow::MainWindow(QWidget *parent) :
     listMenu.addAction(this->ui->action_del_from_list);
 
     this->setWindowTitle(tr("Конвертер UserSafety точек"));
-    //this->setWindowIcon(QIcon(":/gui/icons/yel_triag.ico"));
-    //this->setWindowIcon(QIcon(":/gui/icons/yt_24.ico"));
     changed=false;
 
     ui->treeView->installEventFilter(this);
