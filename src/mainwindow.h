@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include <QLabel>
 #include <QSettings>
+#include <QProgressBar>
 
 
 #include "pointmodel.h"

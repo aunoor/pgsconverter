@@ -25,7 +25,16 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="margin">
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>5</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
      <number>5</number>
     </property>
     <item>
@@ -46,7 +55,16 @@
         <string>Page 1</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
          <number>1</number>
         </property>
         <item>
@@ -82,14 +100,23 @@
          <x>0</x>
          <y>0</y>
          <width>446</width>
-         <height>326</height>
+         <height>307</height>
         </rect>
        </property>
        <attribute name="label">
         <string>Page 2</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="margin">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
          <number>1</number>
         </property>
         <item>
@@ -170,7 +197,7 @@
      <x>0</x>
      <y>0</y>
      <width>456</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -195,6 +222,7 @@
     <property name="title">
      <string>Инструменты</string>
     </property>
+    <addaction name="action_remove_internal_twins"/>
     <addaction name="action_remove_twins"/>
     <addaction name="action_clone_point"/>
     <addaction name="actionConfigure"/>
