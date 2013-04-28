@@ -4,6 +4,7 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QKeySequence>
 #include <cstring>
 
 #include "mainwindow.h"
@@ -80,6 +81,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->treeView_sc->header()->resizeSection(4,200);
     //this->ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
+#ifdef Q_OS_MAC
+    this->ui->actionConfigure->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_Comma));
+#endif
 
     listMenu.addAction(this->ui->action_check_all);
     listMenu.addAction(this->ui->action_uncheck_all);
