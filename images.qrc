@@ -35,7 +35,7 @@
         <file>icons/Users-Police-icon.png</file>
         <file>icons/yel_triag.png</file>
         <file>icons/Users-Police-icon_small.png</file>
-        <file>icons/yel_triag.ico</file>
+        <file>icons/yt_32.ico</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

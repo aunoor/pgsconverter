@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "v2.0.0"
+#define VERSION "v2.0.1"
 #define MIME_RAW_POINT_TYPE "application/x-rawsafepointlist"
 
 enum CFG_USER_SAFETY_INFO

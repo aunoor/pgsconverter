@@ -15,12 +15,12 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../images.qrc">
-    <normaloff>:/gui/icons/link_cam.ico</normaloff>:/gui/icons/link_cam.ico</iconset>
+    <normaloff>:/gui/icons/yt_32.ico</normaloff>:/gui/icons/yt_32.ico</iconset>
   </property>
   <property name="iconSize">
    <size>
-    <width>64</width>
-    <height>64</height>
+    <width>32</width>
+    <height>32</height>
    </size>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -38,8 +38,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>96</width>
-         <height>66</height>
+         <width>446</width>
+         <height>326</height>
         </rect>
        </property>
        <attribute name="label">
