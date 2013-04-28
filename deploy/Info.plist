@@ -5,11 +5,11 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIconFile</key>
-	<string>map_edit.icns</string>
+	<string>yel_triag.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleGetInfoString</key>
-	<string>ProGorod safety files converter 1.0.9</string>
+	<string>ProGorod safety files converter 2.0.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
@@ -17,6 +17,6 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.darkstar.pgsconverter</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.9</string>
+	<string>2.0.3</string>
 </dict>
 </plist>
