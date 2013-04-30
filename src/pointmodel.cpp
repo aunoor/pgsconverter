@@ -223,7 +223,7 @@ bool PointModel::dropMimeData(const QMimeData *data,
             pntInd+=1;
         }
     }//else moveMode
-    emit dataChanged(index(0,0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
+    emit dataChanged(index(0,0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())-1));
     return true;
 }
 
@@ -281,7 +281,6 @@ void PointModel::insertPoint(const int row, const safePoint_t &point)
     beginInsertRows(QModelIndex(),row,row);
     pointList.insert(row, point);
     endInsertRows();
-//    emit dataChanged(index(pointList.count(),0,QModelIndex()),index(pointList.count(),columnCount(QModelIndex())));
 }
 
 void PointModel::clearModel()
@@ -295,7 +294,7 @@ void PointModel::setPointChecked(int row, bool checked)
 {
     if (row>pointList.count()) return;
     pointList[row].checked=checked;
-    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())));
+    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())-1));
 }
 
 int PointModel::getCheckedCount()
@@ -321,7 +320,7 @@ void PointModel::setPoint(int row, safePoint_t &point)
 {
     if (row>pointList.count()-1) return;
     pointList[row] = point;
-    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())));
+    emit dataChanged(index(row,0,QModelIndex()),index(row,columnCount(QModelIndex())-1));
 }
 
 bool PointModel::swapRows(int oldRow, int newRow)

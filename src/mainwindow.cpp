@@ -543,8 +543,7 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
 
 void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight)
 {
-
-   if (topLeft.column()==0) {
+    if (topLeft.column()==0) {
        bool checked = pointModel.getPoint(topLeft.row()).checked;
        QModelIndexList selList=ui->treeView->selectionModel()->selectedRows(0);
        pointModel.massCheck(selList,checked);
