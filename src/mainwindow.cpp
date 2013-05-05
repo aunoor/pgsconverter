@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sc_proxyModel.setSourceModel(&this->sc_pointModel);
 
     this->ui->treeView->setModel(&this->proxyModel);
+    //this->ui->treeView->setModel(&this->pointModel);
     this->ui->treeView->sortByColumn(0,Qt::AscendingOrder);
 
     this->ui->treeView->header()->resizeSection(0,80);
@@ -525,12 +526,22 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
         QModelIndex tmpIndex=model->index(index.row(),1);
         int currentType=model->data(tmpIndex,Qt::UserRole).toInt();
 
-        for (int i=0;i<model->rowCount();i++) {
+        QItemSelectionModel *selModel = new QItemSelectionModel(model);
+
+        int ovrCnt=model->rowCount();
+
+        QTime aaa=QTime::currentTime();
+
+
+        for (int i=0;i<ovrCnt;i++) {
             QModelIndex tmpIndex=model->index(i,1);
             if (currentType==model->data(tmpIndex,Qt::UserRole).toInt()) {
-                ui->treeView->selectionModel()->select(tmpIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+                //ui->treeView->selectionModel()->select(tmpIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+                selModel->select(tmpIndex, QItemSelectionModel::Select | QItemSelectionModel::Rows);
             }//if
+            showCompareProgress(i+1,ovrCnt);
         }//for
+        ui->treeView->setSelectionModel(selModel);
         return;
     }
 
@@ -668,24 +679,24 @@ void MainWindow::showCompareProgress(unsigned int pos, unsigned int overal)
 {
 //    qDebug() << "pos=" << pos <<" overal" << overal;
 
+    ui->statusbar->setVisible(true);
     odCompareProgressBar->setVisible(true);
     odCompareProgressBar->setMaximum(overal);
     odCompareProgressBar->setValue(pos);
+
+    if (pos==overal) {
+        ui->statusbar->setVisible(false);
+        odCompareProgressBar->setVisible(false);
+        odCompareProgressBar->setMaximum(1);
+        odCompareProgressBar->setMinimum(0);
+        odCompareProgressBar->setValue(0);
+        return;
+    }
 
     odCompareProgressBar->repaint();
     ui->statusbar->repaint();
     this->repaint();
     qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
-
-    if (pos==overal) {
-        odCompareProgressBar->setMaximum(1);
-        odCompareProgressBar->setMinimum(0);
-        odCompareProgressBar->setValue(0);
-        odCompareProgressBar->setVisible(false);
-        return;
-    }
-
-
 }
 
 void MainWindow::on_action_remove_internal_twins_triggered()

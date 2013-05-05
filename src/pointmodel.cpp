@@ -120,7 +120,8 @@ QModelIndex PointModel::index(int row, int column, const QModelIndex & parent) c
 {
     if (row>pointList.count()-1) return QModelIndex();
     if (row<-1) return QModelIndex();
-    return createIndex(row, column, (int)QString(QString::number(row)+QString::number(column)+QString::number(row*column)).toLongLong());
+    //return createIndex(row, column, (int)QString(QString::number(row)+QString::number(column)+QString::number(row*column)).toLongLong());
+    return createIndex(row, column, pointList.at(row).uuid.data1);
 }
 
 int PointModel::rowCount ( const QModelIndex & parent) const
@@ -433,4 +434,13 @@ void PointModel::delete_internal_twins()
     emit compareProgress(pos,pos);
 
     endResetModel();
+}
+
+void PointModel::selectByType(int pointType) {
+    for (int i=0;i<pointList.count();i++) {
+        if (pointList.at(i).pntType==pointType) pointList[i].checked=true;
+        else pointList[i].checked=false;
+    }//for
+
+    emit dataChanged(index(0,0,QModelIndex()),index(rowCount(),columnCount(QModelIndex())));
 }

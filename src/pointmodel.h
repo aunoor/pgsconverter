@@ -42,6 +42,7 @@ public:
     void massCheck(QModelIndexList &list, bool checked); //массовая отметка без порождения сигнала
     void delete_sc_twins(PointModel *point_model); //удаляет дубли из списка, сравнивая с safety_cache.bin
     void delete_internal_twins(); //удаляет дубли из внутреннего списка
+    void selectByType(int pointType); //помечает точки по типу
 
 signals:
     void compareProgress(unsigned int pos, unsigned int overal);
