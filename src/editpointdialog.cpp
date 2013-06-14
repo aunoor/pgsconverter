@@ -40,5 +40,6 @@ int EditPointDialog::exec(safePoint_t &point)
     point.lat = this->m_ui->latSpinBox->value();
     point.lon = this->m_ui->lonSpinBox->value();
     point.pntType = this->m_ui->typeComboBox->currentIndex()+1;
+    point.speed = this->m_ui->speedSpinBox->value();
     return res;
 }
