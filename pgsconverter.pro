@@ -38,4 +38,4 @@ RESOURCES += images.qrc
 
 RC_FILE = pgsconverter_resource.rc 
 
-VERSION=2.0.1
+VERSION=2.0.5
