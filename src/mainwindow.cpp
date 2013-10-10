@@ -120,6 +120,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&pointModel,SIGNAL(compareProgress(uint,uint)),SLOT(showCompareProgress(uint,uint)), Qt::DirectConnection);
     connect(&pointModel,SIGNAL(modelReset()), SLOT(pointModel_modelReset_slot()));
     loadSettings();
+
+    if (qApp->arguments().count()>1) {
+        loadPointsFromFile(qApp->arguments().at(1), "", false);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -394,6 +398,11 @@ void MainWindow::doLoadPoints(bool append) {
     QFileInfo fileInfo(fileName);
     (append?app_settings.appendDir:app_settings.openDir)  = fileInfo.absolutePath();
     saveSettings();
+    loadPointsFromFile(fileName, selectedFilter, append);
+}
+
+
+void MainWindow::loadPointsFromFile(QString fileName, QString selectedFilter, bool append){
     SafePointsList safeList;
     if (QFileInfo(fileName).suffix()=="txt") {
         bool isUTF=false;

@@ -232,6 +232,24 @@
           <normaloff>:/gui/icons/pg_icons/att.png</normaloff>:/gui/icons/pg_icons/att.png</iconset>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Камера выделенной полосы</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../images.qrc">
+          <normaloff>:/gui/icons/pg_icons/dedic_line.png</normaloff>:/gui/icons/pg_icons/dedic_line.png</iconset>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Школьная зона</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../images.qrc">
+          <normaloff>:/gui/icons/pg_icons/school_zone.png</normaloff>:/gui/icons/pg_icons/school_zone.png</iconset>
+        </property>
+       </item>
       </widget>
      </item>
      <item>

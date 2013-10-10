@@ -85,6 +85,7 @@ private:
     void doLoadPoints(bool append); //функция, открывает диалог для загрузки или добавления точек в список
     void loadSettings(); //загрузка переменных конфига
     void saveSettings(); //запись переменных конфига
+    void loadPointsFromFile(QString fileName, QString selectedFilter, bool append);
 protected:
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject *, QEvent *);
