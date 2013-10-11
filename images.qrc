@@ -35,6 +35,10 @@
         <file>icons/yel_triag.png</file>
         <file>icons/Users-Police-icon_small.png</file>
         <file>icons/yt_32.ico</file>
+        <file>icons/pg_icons/danger_turn.png</file>
+        <file>icons/pg_icons/intersection.png</file>
+        <file>icons/pg_icons/school_zone.png</file>
+        <file>icons/pg_icons/dedic_line.png</file>
     </qresource>
     <qresource prefix="/">
         <file>translation/qt_ru.qm</file>

@@ -53,11 +53,13 @@ QVariant PointModel::data(const QModelIndex & index, int role) const
               case CFG_USER_SAFETY_INFO_TYPE_RAILWAY: iconName=":/gui/icons/pg_icons/rc.png"; break;
               case CFG_USER_SAFETY_INFO_TYPE_POLICE: iconName=":/gui/icons/pg_icons/dps.png"; break;
               case CFG_USER_SAFETY_INFO_TYPE_SPEEDCAM: iconName=":/gui/icons/pg_icons/camera.png"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: iconName=":/gui/icons/pg_icons/att.png"; break;
-              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/att.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_INTERSECTION: iconName=":/gui/icons/pg_icons/intersection.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DANGEROUS_TURN: iconName=":/gui/icons/pg_icons/danger_turn.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_DEDICATED_LANE_CAM: iconName=":/gui/icons/pg_icons/dedic_line.png"; break;
+              case CFG_USER_SAFETY_INFO_TYPE_PASSWAY: iconName=":/gui/icons/pg_icons/school_zone.png"; break;
             default: {
                 iconName=":/gui/icons/pg_icons/qu.png";
-                //qDebug() << "unknown point type: " << (int)pointList.at(index.row()).pntType;
+                qDebug() << "PointModel::data(): unknown point type: " << (int)pointList.at(index.row()).pntType;
                 }//default
             }
             QIcon icon(iconName);
