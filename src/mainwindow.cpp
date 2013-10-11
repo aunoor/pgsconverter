@@ -181,6 +181,9 @@ bool MainWindow::loadSafeRecords(QString fileName, SafePointsList &list)
         }
         safeRecordV1_t safeRecord;
         std::memcpy(&safeRecord,ba.data(),sizeof(SafeRecord_V1));
+
+        //qDebug() << safeRecord.type;
+
         addRawPointToPointList(safeRecord, list);
     }
 
@@ -546,10 +549,12 @@ void MainWindow::on_treeView_doubleClicked(QModelIndex index)
     }
 
     EditPointDialog ed;
-    safePoint_t point=pointModel.getPoint(index.row());
+
+    QModelIndex srtIndex=((QSortFilterProxyModel*)ui->treeView->model())->mapToSource(index);
+    safePoint_t point=pointModel.getPoint(srtIndex.row());
     int res=ed.exec(point);
     if (res==QDialog::Rejected) return;
-    pointModel.setPoint(index.row(),point);
+    pointModel.setPoint(srtIndex.row(),point);
 }
 
 void MainWindow::pointModel_dataChanged_slot(const QModelIndex &topLeft, const QModelIndex &bottomRight)
